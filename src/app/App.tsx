@@ -1,9 +1,17 @@
+import { RouterProvider } from "react-router-dom";
+import router from "./routes";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "./api/queryClient";
+import { Provider } from "react-redux";
+import { store } from "./store";
 function App() {
   return (
     <>
-      <h1 className="text-heading-1 font-bold underline bg-main-color">
-        Vite + React
-      </h1>
+      <Provider store={store}>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+        </QueryClientProvider>
+      </Provider>
     </>
   );
 }
