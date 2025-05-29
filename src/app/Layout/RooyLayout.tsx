@@ -4,7 +4,20 @@ import Logo from "../../shared/components/atoms/Logo";
 const RooyLayout = () => {
   const location = useLocation();
   const isLogin =
-    location.pathname === "/login" || location.pathname === "/register";
+    location.pathname === "/login" ||
+    location.pathname === "/register" ||
+    location.pathname === "/confirmemail" ||
+    location.pathname === "/resendemail";
+
+  const accessToken = localStorage.getItem("accessToken");
+  const accessTokenExpires = localStorage.getItem("accessTokenExpires");
+
+  function isAccessTokenValid() {
+    if (!accessToken || !accessTokenExpires) return false;
+
+    const expiryDate = new Date(accessTokenExpires);
+    return new Date() < expiryDate;
+  }
   return (
     <>
       {!isLogin && (
@@ -16,12 +29,20 @@ const RooyLayout = () => {
             <li>
               <Link to="/">Home</Link>
             </li>
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
-            <li>
-              <Link to="/register">Register</Link>
-            </li>
+            {isAccessTokenValid() ? (
+              <li>
+                <Link to="/profile">Profile</Link>
+              </li>
+            ) : (
+              <>
+                <li>
+                  <Link to="/login">Login</Link>
+                </li>
+                <li>
+                  <Link to="/register">Register</Link>
+                </li>
+              </>
+            )}
           </ul>
         </nav>
       )}
