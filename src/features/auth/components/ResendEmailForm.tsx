@@ -1,39 +1,33 @@
-import FormField from "../../../shared/components/molecules/FormField";
 import Image from "../../../shared/components/atoms/Image";
 import image from "../../../assets/images/mainlogin.png";
-import { Button } from "../../../shared/components/atoms/Button";
 import { useFormik } from "formik";
-import useLoginAuth from "../services/loginAuth";
-
 import AuthHeader from "./AuthHeader";
-import { LoginSchema } from "../validation/LoginSchema";
+import FormField from "../../../shared/components/molecules/FormField";
+import { Button } from "../../../shared/components/atoms/Button";
+import { ResendEmailSchema } from "../validation/ResendEmailSchema";
+import useConfirmEmail from "../services/confirmEmail";
 
-const LoginForm = () => {
-  const { mutate, isPending } = useLoginAuth();
+const ResendEmailForm = () => {
+  const { mutate, isPending } = useConfirmEmail();
 
   const formik = useFormik({
     initialValues: {
       email: "",
-      password: "",
     },
-    validationSchema: LoginSchema,
-    onSubmit: (values) => {
-      mutate(values);
-    },
+    validationSchema: ResendEmailSchema,
+    onSubmit: (values) => mutate(values),
   });
   return (
     <div className="flex h-screen">
       <div className="w-full md:w-1/2 flex flex-col gap-4 p-10 justify-center ">
         <AuthHeader
-          text="Login to your account"
-          subTitle="Don't have an account?"
-          link="Sign up"
-          to="/register"
+          text="Resend Email"
+          subTitle="Enter your email address to resend the confirmation email."
         />
         <form className="flex flex-col gap-4" onSubmit={formik.handleSubmit}>
           <FormField
             id="email"
-            label="Email"
+            label="Resend Email"
             type="email"
             placeholder="Email"
             value={formik.values.email}
@@ -41,18 +35,9 @@ const LoginForm = () => {
             onBlur={formik.handleBlur}
             error={formik.touched.email ? formik.errors.email : undefined}
           />
-          <FormField
-            id="password"
-            label="Password"
-            type="password"
-            placeholder="Password"
-            value={formik.values.password}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={formik.touched.password ? formik.errors.password : undefined}
-          />
+
           <Button type="submit" className="w-full " variant="default">
-            {isPending ? "Loading..." : "Login"}
+            {isPending ? "Loading..." : "Resend Email"}
           </Button>
         </form>
       </div>
@@ -68,4 +53,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default ResendEmailForm;

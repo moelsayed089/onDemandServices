@@ -1,5 +1,3 @@
-//post
-
 import { useMutation, type UseMutationOptions } from "@tanstack/react-query";
 import axiosInstance from "./axiosConfig";
 
