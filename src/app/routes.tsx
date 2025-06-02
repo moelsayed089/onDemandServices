@@ -5,6 +5,9 @@ import Signup from "../features/auth/pages/Signup";
 import ConfirmEmail from "../features/auth/pages/ConfirmEmail";
 import ResendEmail from "../features/auth/pages/ResendEmail";
 import Profile from "../pages/Profile";
+import { ForgetPassword } from "../features/auth/pages/ForgetPassword";
+import ResetCode from "../features/auth/pages/ResetCode";
+import RestPassword from "../features/auth/pages/RestPassword";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +49,18 @@ const router = createBrowserRouter([
       {
         path: "/profile",
         element: <Profile />,
+      },
+      {
+        path: "/forgetpassword",
+        element: <ForgetPassword />,
+      },
+      {
+        path: "/verifycode",
+        element: <ResetCode />,
+      },
+      {
+        path: "/restpassword",
+        element: <RestPassword />,
       },
     ],
   },
