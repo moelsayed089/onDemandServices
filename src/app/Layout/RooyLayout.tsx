@@ -7,7 +7,9 @@ const RooyLayout = () => {
     location.pathname === "/login" ||
     location.pathname === "/register" ||
     location.pathname === "/confirmemail" ||
-    location.pathname === "/resendemail";
+    location.pathname === "/resendemail" ||
+    location.pathname === "/forgetpassword"||
+    location.pathname === "/verifycode";
 
   const accessToken = localStorage.getItem("accessToken");
   const accessTokenExpires = localStorage.getItem("accessTokenExpires");
