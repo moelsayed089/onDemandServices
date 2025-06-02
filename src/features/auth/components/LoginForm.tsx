@@ -7,6 +7,7 @@ import useLoginAuth from "../services/loginAuth";
 
 import AuthHeader from "./AuthHeader";
 import { LoginSchema } from "../validation/LoginSchema";
+import { Link } from "react-router-dom";
 
 const LoginForm = () => {
   const { mutate, isPending } = useLoginAuth();
@@ -51,6 +52,12 @@ const LoginForm = () => {
             onBlur={formik.handleBlur}
             error={formik.touched.password ? formik.errors.password : undefined}
           />
+          <Link
+            to="/forgetpassword"
+            className="text-main-color underline text-end text-sm font-medium"
+          >
+            Forgot Password
+          </Link>
           <Button type="submit" className="w-full " variant="default">
             {isPending ? "Loading..." : "Login"}
           </Button>
