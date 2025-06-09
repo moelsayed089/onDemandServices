@@ -3,6 +3,8 @@ import Logo from "../atoms/Logo";
 import { Menu, X } from "lucide-react";
 import { Button } from "../atoms/Button";
 import { useEffect, useRef, useState } from "react";
+import { Avatar } from "../atoms/Avatar";
+import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -58,16 +60,23 @@ const Navbar = () => {
 
         <div>
           <ul className="flex gap-4">
-            <Button variant="default" className="hidden md:block">
-              <Link className="font-medium text-body-sm" to="/login">
+            <Link className="font-medium text-body-sm" to="/login">
+              <Button
+                variant="default"
+                className="hidden md:block hover:cursor-pointer"
+              >
                 Login
-              </Link>
-            </Button>
-            <Button variant="secondary" className="hidden md:block">
-              <Link className="font-medium text-body-sm " to="/register">
+              </Button>
+            </Link>
+
+            <Link className="font-medium text-body-sm " to="/register">
+              <Button
+                variant="secondary"
+                className="hidden md:block hover:cursor-pointer"
+              >
                 Register
-              </Link>
-            </Button>
+              </Button>
+            </Link>
 
             {/* <Button variant="secondary" className="hidden lg:block">
             <Link className="font-medium text-body-sm " to="/register">
@@ -76,13 +85,24 @@ const Navbar = () => {
           </Button> */}
 
             <button onClick={toggleOpen} className="font-medium md:hidden">
-              <Menu />
+              <Menu size={30} />
             </button>
+
+            <Link to="/profile">
+              <Avatar className="hover:cursor-pointer bg-amber-300 flex items-center justify-center">
+                <AvatarImage
+                  src="https://github.com/shadcn.png"
+                  alt="@shadcn.png"
+                />
+                <AvatarFallback>MP</AvatarFallback>
+              </Avatar>
+            </Link>
           </ul>
         </div>
-
-        {/* sidebar responsive nav */}
       </nav>
+
+      {/* sidebar responsive nav */}
+      {/* <MobileNav isOpen={isOpen} closeMenu={closeMenu} /> */}
       <div
         ref={menuRef}
         className={`fixed inset-y-0 right-0 z-50 w-64  bg-[#f1f1f1] p-6 transition-transform duration-300 ease-in-out transform ${
@@ -98,31 +118,26 @@ const Navbar = () => {
             >
               <X />
             </Button>
-            <li className="bg-gray-200 py-3 px-2 rounded-md">
-              <Link className="font-medium text-body-sm  " to="/">
-                Home
-              </Link>
-            </li>
-            <li className="bg-gray-200 py-3 px-2 rounded-md">
-              <Link className="font-medium text-body-sm  " to="/trips">
-                My Trips
-              </Link>
-            </li>
-            <li className="bg-gray-200 py-3 px-2 rounded-md">
-              <Link className="font-medium text-body-sm " to="/about">
-                About
-              </Link>
-            </li>
-            <Button variant="default" className="">
-              <Link className="font-medium text-body-sm" to="/login">
+            <Link className="font-medium text-body-sm  " to="/">
+              <li className="bg-gray-200 py-3 px-2 rounded-md">Home</li>
+            </Link>
+            <Link className="font-medium text-body-sm  " to="/trips">
+              <li className="bg-gray-200 py-3 px-2 rounded-md">My Trips</li>
+            </Link>
+            <Link className="font-medium text-body-sm " to="/about">
+              <li className="bg-gray-200 py-3 px-2 rounded-md">About</li>
+            </Link>
+
+            <Link className="font-medium text-body-sm" to="/login">
+              <Button variant="default" className="w-full">
                 Login
-              </Link>
-            </Button>
-            <Button variant="secondary" className="">
-              <Link className="font-medium text-body-sm " to="/register">
+              </Button>
+            </Link>
+            <Link className="font-medium text-body-sm " to="/register">
+              <Button variant="secondary" className="w-full">
                 Register
-              </Link>
-            </Button>
+              </Button>
+            </Link>
           </ul>
         </nav>
       </div>
