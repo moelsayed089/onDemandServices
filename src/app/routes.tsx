@@ -11,6 +11,7 @@ import RestPassword from "../features/auth/pages/RestPassword";
 import AdminLayout from "./Layout/AdminLayout";
 import DriverLayout from "./Layout/DriverLayout";
 import AuthLayout from "./Layout/AuthLayout";
+import Home from "../pages/Home";
 
 const router = createBrowserRouter([
   //   Root Layout
@@ -20,7 +21,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <div>Home</div>,
+        element: <Home />,
       },
       {
         path: "/profile",
