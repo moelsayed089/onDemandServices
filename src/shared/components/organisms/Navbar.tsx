@@ -36,7 +36,7 @@ const Navbar = () => {
   }, [isOpen]);
   return (
     <>
-      <nav className="flex items-center justify-between p-4 bg-gray-200">
+      <nav className="flex items-center relative z-10 justify-between p-4 bg-white shadow-md">
         <div className="flex items-center gap-8">
           <Logo width="w-16" />
           <ul className="md:flex gap-4 hidden ">
@@ -105,7 +105,7 @@ const Navbar = () => {
       {/* <MobileNav isOpen={isOpen} closeMenu={closeMenu} /> */}
       <div
         ref={menuRef}
-        className={`fixed inset-y-0 right-0 z-50 w-64  bg-[#f1f1f1] p-6 transition-transform duration-300 ease-in-out transform ${
+        className={`fixed inset-y-0 right-0 z-50 w-64  bg-white shadow-md p-6 transition-transform duration-300 ease-in-out transform ${
           isOpen ? "translate-x-0 " : "translate-x-full "
         } lg:hidden`}
       >
