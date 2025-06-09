@@ -5,7 +5,7 @@ import shap2 from "../../../assets/images/PricingInfo/shape2.png";
 const PricingInfoSection = () => {
   return (
     <>
-      <section className=" relative  mt-16  bg-gray-100 overflow-hidden">
+      <section className=" relative  mt-16   overflow-hidden">
         <div className="container  flex flex-col items-center justify-center min-h-[500px] ">
           <h2 className="text-heading-4  leading-heading-4  md:text-heading-3 md:leading-heading-3 lg:text-heading-2 lg:leading-heading-2 font-medium text-center mb-7">
             Flexible prices for everyone
