@@ -34,6 +34,16 @@ const Navbar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isOpen]);
+
+  const accessToken = localStorage.getItem("accessToken");
+  const accessTokenExpires = localStorage.getItem("accessTokenExpires");
+
+  function isAccessTokenValid() {
+    if (!accessToken || !accessTokenExpires) return false;
+
+    const expiryDate = new Date(accessTokenExpires);
+    return new Date() < expiryDate;
+  }
   return (
     <>
       <nav className="flex items-center relative z-10 justify-between p-4 bg-white shadow-md">
@@ -60,43 +70,42 @@ const Navbar = () => {
 
         <div>
           <ul className="flex gap-4">
-            <Link className="font-medium text-body-sm" to="/login">
-              <Button
-                variant="default"
-                className="hidden md:block hover:cursor-pointer"
-              >
-                Login
-              </Button>
-            </Link>
+            {!isAccessTokenValid() && (
+              <>
+                <Link className="font-medium text-body-sm" to="/login">
+                  <Button
+                    variant="default"
+                    className="hidden md:block hover:cursor-pointer"
+                  >
+                    Login
+                  </Button>
+                </Link>
 
-            <Link className="font-medium text-body-sm " to="/register">
-              <Button
-                variant="secondary"
-                className="hidden md:block hover:cursor-pointer"
-              >
-                Register
-              </Button>
-            </Link>
-
-            {/* <Button variant="secondary" className="hidden lg:block">
-            <Link className="font-medium text-body-sm " to="/register">
-              Register
-            </Link>
-          </Button> */}
-
+                <Link className="font-medium text-body-sm " to="/register">
+                  <Button
+                    variant="secondary"
+                    className="hidden md:block hover:cursor-pointer"
+                  >
+                    Register
+                  </Button>
+                </Link>
+              </>
+            )}
             <button onClick={toggleOpen} className="font-medium md:hidden">
               <Menu size={30} />
             </button>
 
-            <Link to="/profile">
-              <Avatar className="hover:cursor-pointer bg-amber-300 flex items-center justify-center">
-                <AvatarImage
-                  src="https://github.com/shadcn.png"
-                  alt="@shadcn.png"
-                />
-                <AvatarFallback>MP</AvatarFallback>
-              </Avatar>
-            </Link>
+            {isAccessTokenValid() && (
+              <Link to="/profile">
+                <Avatar className="hover:cursor-pointer bg-amber-300 flex items-center justify-center">
+                  <AvatarImage
+                    src="https://github.com/shadcn.png"
+                    alt="@shadcn.png"
+                  />
+                  <AvatarFallback>MP</AvatarFallback>
+                </Avatar>
+              </Link>
+            )}
           </ul>
         </div>
       </nav>
@@ -128,16 +137,20 @@ const Navbar = () => {
               <li className="bg-gray-200 py-3 px-2 rounded-md">About</li>
             </Link>
 
-            <Link className="font-medium text-body-sm" to="/login">
-              <Button variant="default" className="w-full">
-                Login
-              </Button>
-            </Link>
-            <Link className="font-medium text-body-sm " to="/register">
-              <Button variant="secondary" className="w-full">
-                Register
-              </Button>
-            </Link>
+            {!isAccessTokenValid() && (
+              <>
+                <Link className="font-medium text-body-sm" to="/login">
+                  <Button variant="default" className="w-full">
+                    Login
+                  </Button>
+                </Link>
+                <Link className="font-medium text-body-sm " to="/register">
+                  <Button variant="secondary" className="w-full">
+                    Register
+                  </Button>
+                </Link>
+              </>
+            )}
           </ul>
         </nav>
       </div>

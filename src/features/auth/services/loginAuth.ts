@@ -25,9 +25,10 @@ const useLoginAuth = () => {
       );
       if (data.data.role === "superAdmin") navigate("/admin");
       else if (data.data.role === "driver") navigate("/driver");
-      else navigate("/user");
+      else navigate("/");
     },
     onError: (error) => {
+      console.log(error);
       const axiosError = error as AxiosError<{ message: string }>;
       const errorMessage = axiosError.response?.data?.message;
 
