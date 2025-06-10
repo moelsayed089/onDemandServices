@@ -14,80 +14,83 @@ import AuthLayout from "./Layout/AuthLayout";
 import Home from "../pages/Home";
 import AboutSection from "../shared/components/organisms/AboutSection";
 
-const router = createBrowserRouter([
-  //   Root Layout
-  {
-    path: "/",
-    element: <RooyLayout />,
-    children: [
-      {
-        path: "/",
-        element: <Home />,
-      },
-      {
-        path: "/about",
-        element: <AboutSection />,
-      },
-      {
-        path: "/profile",
-        element: <Profile />,
-      },
-    ],
-  },
-  // Auth Layout
-  {
-    path: "/",
-    element: <AuthLayout />,
-    children: [
-      {
-        path: "/login",
-        element: <Login />,
-      },
-      {
-        path: "/register",
-        element: <Signup />,
-      },
-      {
-        path: "/confirmemail",
-        element: <ConfirmEmail />,
-      },
-      {
-        path: "/resendemail",
-        element: <ResendEmail />,
-      },
-      {
-        path: "/forgetpassword",
-        element: <ForgetPassword />,
-      },
-      {
-        path: "/verifycode",
-        element: <ResetCode />,
-      },
-      {
-        path: "/restpassword",
-        element: <RestPassword />,
-      },
-    ],
-  },
-  //   Admin Layout
-  {
-    path: "/admin",
-    element: <AdminLayout />,
-    children: [
-      { path: "", element: <div>Admin</div> },
-      { path: "dashboard", element: <div>Admin Dashboard qqqq</div> },
-    ],
-  },
+const router = createBrowserRouter(
+  [
+    //   Root Layout
+    {
+      path: "/",
+      element: <RooyLayout />,
+      children: [
+        {
+          path: "/",
+          element: <Home />,
+        },
+        {
+          path: "/about",
+          element: <AboutSection />,
+        },
+        {
+          path: "/profile",
+          element: <Profile />,
+        },
+      ],
+    },
+    // Auth Layout
+    {
+      path: "/",
+      element: <AuthLayout />,
+      children: [
+        {
+          path: "/login",
+          element: <Login />,
+        },
+        {
+          path: "/register",
+          element: <Signup />,
+        },
+        {
+          path: "/confirmemail",
+          element: <ConfirmEmail />,
+        },
+        {
+          path: "/resendemail",
+          element: <ResendEmail />,
+        },
+        {
+          path: "/forgetpassword",
+          element: <ForgetPassword />,
+        },
+        {
+          path: "/verifycode",
+          element: <ResetCode />,
+        },
+        {
+          path: "/restpassword",
+          element: <RestPassword />,
+        },
+      ],
+    },
+    //   Admin Layout
+    {
+      path: "/admin",
+      element: <AdminLayout />,
+      children: [
+        { path: "", element: <div>Admin</div> },
+        { path: "dashboard", element: <div>Admin Dashboard qqqq</div> },
+      ],
+    },
 
-  //   Driver Layout
-  {
-    path: "/driver",
-    element: <DriverLayout />,
-    children: [
-      { path: "", element: <div>Driver</div> },
-      { path: "dashboard", element: <div>Driver Dashboard</div> },
-    ],
-  },
-]);
+    //   Driver Layout
+    {
+      path: "/driver",
+      element: <DriverLayout />,
+      children: [
+        { path: "", element: <div>Driver</div> },
+        { path: "dashboard", element: <div>Driver Dashboard</div> },
+      ],
+    },
+  ],
+  { basename: "https://on-demand-services-rose.vercel.app/" }
+);
 
 export default router;
