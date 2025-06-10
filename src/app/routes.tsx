@@ -12,6 +12,7 @@ import AdminLayout from "./Layout/AdminLayout";
 import DriverLayout from "./Layout/DriverLayout";
 import AuthLayout from "./Layout/AuthLayout";
 import Home from "../pages/Home";
+import AboutSection from "../shared/components/organisms/AboutSection";
 
 const router = createBrowserRouter([
   //   Root Layout
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/about",
+        element: <AboutSection />,
       },
       {
         path: "/profile",
