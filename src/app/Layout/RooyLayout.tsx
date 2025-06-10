@@ -6,10 +6,14 @@ import ScrollToTop from "../../utils/ScrollToTop";
 const RooyLayout = () => {
   return (
     <>
-      <ScrollToTop />
-      <Navbar />
-      <Outlet />
-      <Footer />
+      <div className="min-h-screen flex flex-col">
+        <ScrollToTop />
+        <Navbar />
+        <main className="flex-1">
+          <Outlet />
+        </main>
+        <Footer />
+      </div>
     </>
   );
 };
