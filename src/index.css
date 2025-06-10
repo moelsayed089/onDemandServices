@@ -43,6 +43,7 @@
   /* Custom colors  */
   --color-main-color: var(--main-color);
   --color-secondary-color: var(--secondary-color);
+  --color-text-color: var(--text-color);
   --color-green-color: var(--green-color);
   --color-gray-color: var(--gray-color);
   --color-input-color: var(--input-color);
@@ -111,6 +112,7 @@
   --sidebar-ring: oklch(0.708 0 0);
   --main-color: #1279D6;
   --secondary-color: #00BFFF;
+  --text-color: #035095;
   --green-color: #A4DE02;
   --gray-color: #333333;
   --input-color: #E7E7E7;

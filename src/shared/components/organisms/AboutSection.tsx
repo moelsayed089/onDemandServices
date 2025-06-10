@@ -7,7 +7,7 @@ const AboutSection = () => {
       <section className="container min-h-screen mt-10 px-4 mb-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           <div>
-            <h1 className="text-blue-900 font-bold md:text-heading-4  lg:text-heading-3 text-heading-4  rounded-2xl mb-6 md:mb-10 ">
+            <h1 className="text-text-color  font-bold md:text-heading-4  lg:text-heading-3 text-heading-4  rounded-2xl mb-6 md:mb-10 ">
               <span className="bg-lime-200 box-decoration-clone px-3 rounded-2xl ">
                 Information About DeliverCo Company
               </span>
@@ -34,17 +34,17 @@ const AboutSection = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-10  mt-16 text-start">
           <div className=" relative   ">
             <div className="bg-gray-100 rounded-[10px] lg:max-w-[75%] p-7 lg:rounded-tl-4xl lg:rounded-br-[70px] gap-3   ">
-              <p className="text-[#035095] text-heading-4 leading-heading-4 font-bold ">
+              <p className=" text-text-color text-heading-4 leading-heading-4 font-bold ">
                 Today, since 2024, DeliverCo has successfully delivered more
                 than
               </p>
             </div>
             <div className="bg-[#A4DE0299] lg:max-w-[30%] rounded-[10px] p-7 lg:rounded-tl-[70px] lg:rounded-tr-[10px]  lg:h-[150px]  flex flex-col items-center justify-center lg:absolute bottom-0 top-[110px] right-[220px] mt-2 ">
               <div className="flex lg:flex-col items-center gap-3  ">
-                <p className=" text-[#035095]  text-heading-4 leading-heading-4 font-bold  ">
+                <p className=" text-text-color  text-heading-4 leading-heading-4 font-bold  ">
                   +2000
                 </p>
-                <p className=" text-[#035095] text-heading-4 leading-heading-4 font-bold ">
+                <p className=" text-text-color text-heading-4 leading-heading-4 font-bold ">
                   parcels
                 </p>
               </div>
@@ -52,7 +52,7 @@ const AboutSection = () => {
           </div>
 
           <div>
-            <h3 className="relative text-[#035095] text-heading-4 leading-heading-4 font-bold text-center mb-3">
+            <h3 className="relative text-text-color text-heading-4 leading-heading-4 font-bold text-center mb-3">
               Our vision.
             </h3>
             <p className="font-medium md:text-body-md md:leading-body-md lg:text-body-lg lg:leading-body-lg mb-6 md:mb-12 w-[100%]  ">
