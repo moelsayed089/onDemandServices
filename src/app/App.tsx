@@ -5,11 +5,13 @@ import { queryClient } from "./api/queryClient";
 import { Provider } from "react-redux";
 import { store } from "./store";
 import { Toaster } from "react-hot-toast";
+import TokenRefresher from "../pages/Profile";
 function App() {
   return (
     <>
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
+          <TokenRefresher />
           <RouterProvider router={router} />
           <Toaster />
         </QueryClientProvider>
