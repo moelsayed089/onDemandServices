@@ -13,12 +13,14 @@ import DriverLayout from "./Layout/DriverLayout";
 import AuthLayout from "./Layout/AuthLayout";
 import Home from "../pages/Home";
 import AboutSection from "../shared/components/organisms/AboutSection";
+import ErrorHandler from "../pages/ErrorHandler";
 
 const router = createBrowserRouter([
   //   Root Layout
   {
     path: "/",
     element: <RooyLayout />,
+    errorElement: <ErrorHandler />,
     children: [
       {
         path: "/",
@@ -31,6 +33,10 @@ const router = createBrowserRouter([
       {
         path: "/profile",
         element: <Profile />,
+      },
+      {
+        path: "*",
+        element: <ErrorHandler />,
       },
     ],
   },
