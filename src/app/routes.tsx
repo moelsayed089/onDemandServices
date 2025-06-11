@@ -14,9 +14,10 @@ import AuthLayout from "./Layout/AuthLayout";
 import Home from "../pages/Home";
 import AboutSection from "../shared/components/organisms/AboutSection";
 import ErrorHandler from "../pages/ErrorHandler";
+import ProtectedLayout from "./Layout/ProtectedLayout";
 
 const router = createBrowserRouter([
-  //   Root Layout
+  // Root Layout
   {
     path: "/",
     element: <RooyLayout />,
@@ -32,7 +33,13 @@ const router = createBrowserRouter([
       },
       {
         path: "/profile",
-        element: <Profile />,
+        element: <ProtectedLayout allowedRoles={["user", "admin", "driver"]} />,
+        children: [
+          {
+            path: "",
+            element: <Profile />,
+          },
+        ],
       },
       {
         path: "*",
@@ -40,58 +47,51 @@ const router = createBrowserRouter([
       },
     ],
   },
+
   // Auth Layout
   {
     path: "/",
     element: <AuthLayout />,
     children: [
-      {
-        path: "/login",
-        element: <Login />,
-      },
-      {
-        path: "/register",
-        element: <Signup />,
-      },
-      {
-        path: "/confirmemail",
-        element: <ConfirmEmail />,
-      },
-      {
-        path: "/resendemail",
-        element: <ResendEmail />,
-      },
-      {
-        path: "/forgetpassword",
-        element: <ForgetPassword />,
-      },
-      {
-        path: "/verifycode",
-        element: <ResetCode />,
-      },
-      {
-        path: "/restpassword",
-        element: <RestPassword />,
-      },
-    ],
-  },
-  //   Admin Layout
-  {
-    path: "/admin",
-    element: <AdminLayout />,
-    children: [
-      { path: "", element: <div>Admin</div> },
-      { path: "dashboard", element: <div>Admin Dashboard qqqq</div> },
+      { path: "/login", element: <Login /> },
+      { path: "/register", element: <Signup /> },
+      { path: "/confirmemail", element: <ConfirmEmail /> },
+      { path: "/resendemail", element: <ResendEmail /> },
+      { path: "/forgetpassword", element: <ForgetPassword /> },
+      { path: "/verifycode", element: <ResetCode /> },
+      { path: "/restpassword", element: <RestPassword /> },
     ],
   },
 
-  //   Driver Layout
+  // Admin Layout
+  {
+    path: "/admin",
+    element: <ProtectedLayout allowedRoles={["admin"]} />,
+    children: [
+      {
+        path: "",
+        element: <AdminLayout />,
+        children: [
+          { path: "", element: <div>Admin</div> },
+          { path: "dashboard", element: <div>Admin Dashboard qqqq</div> },
+        ],
+      },
+    ],
+  },
+
+  // Driver Layout
   {
     path: "/driver",
-    element: <DriverLayout />,
+    element: <ProtectedLayout allowedRoles={["driver"]} />,
     children: [
-      { path: "", element: <div>Driver</div> },
-      { path: "dashboard", element: <div>Driver Dashboard</div> },
+      {
+        path: "",
+        element: <DriverLayout />,
+        children: [
+          { path: "", element: <div>Driver</div> },
+          { path: "dashboard", element: <div>Driver Dashboard</div> },
+        ],
+      },
     ],
   },
 ]);
