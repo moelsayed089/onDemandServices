@@ -36,7 +36,7 @@ const TokenRefresher = () => {
     const now = new Date().getTime();
 
     const timeRemaining = expiresAt - now;
-    const refreshBefore = 2 * 60 * 1000; // دقيقتين = 120000ms
+    const refreshBefore = 2 * 60 * 1000;
 
     const refreshIn = timeRemaining - refreshBefore;
 
@@ -44,12 +44,9 @@ const TokenRefresher = () => {
     const minutes = Math.floor(totalSeconds / 60);
     const seconds = totalSeconds % 60;
 
-    console.log(
-      `⌛ الوقت المتبقي لانتهاء التوكن: ${minutes} دقيقة و ${seconds} ثانية`
-    );
+    console.log(`Token expires in ${minutes} minutes and ${seconds} seconds.`);
 
     if (refreshIn <= 0) {
-      // التوكن قرب يخلص أو خلص بالفعل
       handleRefreshToken();
       return;
     }

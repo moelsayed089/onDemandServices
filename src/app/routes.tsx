@@ -4,7 +4,6 @@ import Login from "../features/auth/pages/Login";
 import Signup from "../features/auth/pages/Signup";
 import ConfirmEmail from "../features/auth/pages/ConfirmEmail";
 import ResendEmail from "../features/auth/pages/ResendEmail";
-import Profile from "../pages/Profile";
 import { ForgetPassword } from "../features/auth/pages/ForgetPassword";
 import ResetCode from "../features/auth/pages/ResetCode";
 import RestPassword from "../features/auth/pages/RestPassword";
@@ -15,6 +14,8 @@ import Home from "../pages/Home";
 import AboutSection from "../shared/components/organisms/AboutSection";
 import ErrorHandler from "../pages/ErrorHandler";
 import ProtectedLayout from "./Layout/ProtectedLayout";
+import Test from "../pages/Test";
+import TokenRefresher from "../pages/TokenRefresher";
 
 const router = createBrowserRouter([
   // Root Layout
@@ -32,15 +33,14 @@ const router = createBrowserRouter([
         element: <AboutSection />,
       },
       {
-        path: "/profile",
-        element: <ProtectedLayout allowedRoles={["user", "admin", "driver"]} />,
-        children: [
-          {
-            path: "",
-            element: <Profile />,
-          },
-        ],
+        path: "/test",
+        element: <Test />,
       },
+      {
+        path: "/profile",
+        element: <TokenRefresher />,
+      },
+
       {
         path: "*",
         element: <ErrorHandler />,
