@@ -55,11 +55,7 @@ const Navbar = () => {
                 Home
               </Link>
             </li>
-            <li>
-              <Link className="font-medium text-body-sm  " to="/test">
-                test
-              </Link>
-            </li>
+
             <li>
               <Link className="font-medium text-body-sm " to="/trips">
                 My Trips
