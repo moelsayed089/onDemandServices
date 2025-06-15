@@ -63,6 +63,11 @@ const RestPasswordForm = () => {
               error={
                 formik.touched[field.id] ? formik.errors[field.id] : undefined
               }
+              noSpaces={
+                field.id === "newPassword" || field.id === "cNewPassword"
+                  ? true
+                  : false
+              }
             />
           ))}
           <Button type="submit" className="w-full " variant="default">

@@ -70,6 +70,7 @@ const SignupForm = () => {
               error={
                 formik.touched[field.id] ? formik.errors[field.id] : undefined
               }
+              noSpaces={field.id === "phone" || field.id === "password"}
             />
           ))}
           <Button type="submit" className="w-full " variant="default">

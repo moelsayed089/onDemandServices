@@ -5,6 +5,7 @@ interface FormFieldProps extends React.ComponentProps<"input"> {
   id: string;
   label: string;
   error?: string;
+  noSpaces?: boolean;
 }
 const FormField: React.FC<FormFieldProps> = ({
   id,
@@ -12,13 +13,25 @@ const FormField: React.FC<FormFieldProps> = ({
   type,
   placeholder,
   error,
+  noSpaces,
   ...props
 }) => {
   return (
     <>
       <div className="flex flex-col gap-1">
         <Label htmlFor={id}>{label}</Label>
-        <Input id={id} type={type} placeholder={placeholder} {...props} />
+        <Input
+          id={id}
+          type={type}
+          placeholder={placeholder}
+          onKeyDown={(e) => {
+            if (noSpaces && e.key === " ") {
+              e.preventDefault();
+            }
+            props.onKeyDown?.(e);
+          }}
+          {...props}
+        />
         {error && <p className="text-red-600">{error}</p>}
       </div>
     </>
