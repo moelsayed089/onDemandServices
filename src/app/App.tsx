@@ -7,6 +7,7 @@ import { store } from "./store";
 import { Toaster } from "react-hot-toast";
 import TokenRefresher from "../pages/TokenRefresher";
 import { Suspense } from "react";
+import Loading from "../shared/components/molecules/Loading";
 function App() {
   return (
     <>
@@ -14,7 +15,11 @@ function App() {
         <QueryClientProvider client={queryClient}>
           <TokenRefresher />
           <Suspense
-            fallback={<div className="text-center mt-10">Loading...</div>}
+            fallback={
+              <div className="text-center min-h-screen">
+                <Loading />
+              </div>
+            }
           >
             <RouterProvider router={router} />
           </Suspense>
