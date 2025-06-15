@@ -1,4 +1,4 @@
-import HeroImage from "../../../assets/images/HeroSection/HeroImage.png";
+import HeroImage from "../../../assets/images/HeroSection/HeroImage.webp";
 import { Button } from "../atoms/Button";
 
 const HeroSection = () => {

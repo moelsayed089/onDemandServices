@@ -1,9 +1,11 @@
 import ForgetPasswordForm from "../components/ForgetPasswordForm";
 
-export const ForgetPassword = () => {
+const ForgetPassword = () => {
   return (
     <div>
       <ForgetPasswordForm />
     </div>
   );
 };
+
+export default ForgetPassword;

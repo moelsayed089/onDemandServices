@@ -6,13 +6,18 @@ import { Provider } from "react-redux";
 import { store } from "./store";
 import { Toaster } from "react-hot-toast";
 import TokenRefresher from "../pages/TokenRefresher";
+import { Suspense } from "react";
 function App() {
   return (
     <>
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
           <TokenRefresher />
-          <RouterProvider router={router} />
+          <Suspense
+            fallback={<div className="text-center mt-10">Loading...</div>}
+          >
+            <RouterProvider router={router} />
+          </Suspense>
           <Toaster />
         </QueryClientProvider>
       </Provider>

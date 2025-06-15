@@ -1,7 +1,7 @@
-import image1 from "../../assets/images/ServicesSection/image1.png";
-import image2 from "../../assets/images/ServicesSection/image2 .png";
-import image3 from "../../assets/images/ServicesSection/image3.png";
-import image4 from "../../assets/images/ServicesSection/image4.png";
+import image1 from "../../assets/images/ServicesSection/image1.webp";
+import image2 from "../../assets/images/ServicesSection/image2 .webp";
+import image3 from "../../assets/images/ServicesSection/image3.webp";
+import image4 from "../../assets/images/ServicesSection/image4.webp";
 
 interface ServiceDataProps {
   icon: string;
