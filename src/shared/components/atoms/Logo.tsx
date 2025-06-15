@@ -1,4 +1,4 @@
-import logo from "../../../assets/icons/logo.png";
+import logo from "../../../assets/icons/logo.webp";
 interface ILogo {
   width?: "w-12" | "w-16" | "w-32" | "w-44" | "w-64";
 }

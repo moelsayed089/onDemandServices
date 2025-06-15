@@ -1,6 +1,6 @@
 import Image from "../atoms/Image";
-import shap1 from "../../../assets/images/PricingInfo/shape1.png";
-import shap2 from "../../../assets/images/PricingInfo/shape2.png";
+import shap1 from "../../../assets/images/PricingInfo/shape1.webp";
+import shap2 from "../../../assets/images/PricingInfo/shape2.webp";
 
 const PricingInfoSection = () => {
   return (

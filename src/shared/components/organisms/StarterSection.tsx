@@ -1,5 +1,5 @@
 import Image from "../atoms/Image";
-import Startnow from "../../../assets/images/StarterSection/Frame.png";
+import Startnow from "../../../assets/images/StarterSection/Frame.webp";
 import StarterInfo from "../molecules/StarterInfo";
 
 const StarterSection = () => {

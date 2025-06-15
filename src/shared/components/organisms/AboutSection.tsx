@@ -1,5 +1,5 @@
 import Image from "../atoms/Image";
-import image1 from "../../../assets/images/AboutSection/AboutSection.png";
+import image1 from "../../../assets/images/AboutSection/AboutSection.webp";
 import StarterInfo from "../molecules/StarterInfo";
 const AboutSection = () => {
   return (
