@@ -1,10 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import { lazy } from "react";
-import RooyLayout from "./Layout/RooyLayout";
-// import { ForgetPassword } from "../features/auth/pages/ForgetPassword";
 
 // Layouts
-// const RooyLayout = lazy(() => import("./Layout/RooyLayout"));
+const RooyLayout = lazy(() => import("./Layout/RooyLayout"));
 const AdminLayout = lazy(() => import("./Layout/AdminLayout"));
 const DriverLayout = lazy(() => import("./Layout/DriverLayout"));
 const AuthLayout = lazy(() => import("./Layout/AuthLayout"));

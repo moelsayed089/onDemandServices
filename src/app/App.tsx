@@ -13,7 +13,6 @@ function App() {
     <>
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
-          <TokenRefresher />
           <Suspense
             fallback={
               <div className="text-center min-h-screen">
@@ -21,9 +20,10 @@ function App() {
               </div>
             }
           >
+            <TokenRefresher />
             <RouterProvider router={router} />
+            <Toaster />
           </Suspense>
-          <Toaster />
         </QueryClientProvider>
       </Provider>
     </>

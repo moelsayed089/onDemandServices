@@ -5,29 +5,36 @@ import { Button } from "../atoms/Button";
 import { useEffect, useRef, useState } from "react";
 import { Avatar } from "../atoms/Avatar";
 import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
+  const sidebarRef = useRef<HTMLDivElement>(null);
 
-  const toggleOpen = () => {
-    setIsOpen(!isOpen);
+  const toggleOpen = () => setIsOpen(!isOpen);
+  const closeMenu = () => setIsOpen(false);
+
+  const accessToken = localStorage.getItem("accessToken");
+  const accessTokenExpires = localStorage.getItem("accessTokenExpires");
+
+  const isAccessTokenValid = () => {
+    if (!accessToken || !accessTokenExpires) return false;
+    return new Date() < new Date(accessTokenExpires);
   };
 
-  const closeMenu = () => {
-    setIsOpen(false);
-  };
+  const isLoggedIn = isAccessTokenValid();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+      if (
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target as Node)
+      ) {
         closeMenu();
       }
     };
 
     if (isOpen) {
       document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
@@ -35,34 +42,24 @@ const Navbar = () => {
     };
   }, [isOpen]);
 
-  const accessToken = localStorage.getItem("accessToken");
-  const accessTokenExpires = localStorage.getItem("accessTokenExpires");
-
-  function isAccessTokenValid() {
-    if (!accessToken || !accessTokenExpires) return false;
-
-    const expiryDate = new Date(accessTokenExpires);
-    return new Date() < expiryDate;
-  }
   return (
     <>
       <nav className="flex items-center relative z-10 justify-between p-4 bg-white shadow-md">
         <div className="flex items-center gap-8">
           <Logo width="w-16" />
-          <ul className="md:flex gap-4 hidden ">
+          <ul className="md:flex gap-4 hidden">
             <li>
-              <Link className="font-medium text-body-sm  " to="/">
+              <Link className="font-medium text-body-sm" to="/">
                 Home
               </Link>
             </li>
-
             <li>
-              <Link className="font-medium text-body-sm " to="/trips">
+              <Link className="font-medium text-body-sm" to="/trips">
                 My Trips
               </Link>
             </li>
             <li>
-              <Link className="font-medium text-body-sm " to="/about">
+              <Link className="font-medium text-body-sm" to="/about">
                 About
               </Link>
             </li>
@@ -70,33 +67,22 @@ const Navbar = () => {
         </div>
 
         <div>
-          <ul className="flex gap-4">
-            {!isAccessTokenValid() && (
+          <ul className="flex gap-4 items-center">
+            {!isLoggedIn && (
               <>
-                <Link className="font-medium text-body-sm" to="/login">
-                  <Button
-                    variant="default"
-                    className="hidden md:block hover:cursor-pointer"
-                  >
-                    Login
-                  </Button>
-                </Link>
-
-                <Link className="font-medium text-body-sm " to="/register">
-                  <Button
-                    variant="secondary"
-                    className="hidden md:block hover:cursor-pointer"
-                  >
-                    Register
-                  </Button>
-                </Link>
+                <Button asChild className="hidden md:block">
+                  <Link to="/login">Login</Link>
+                </Button>
+                <Button variant="secondary" asChild className="hidden md:block">
+                  <Link to="/register">Register</Link>
+                </Button>
               </>
             )}
             <button onClick={toggleOpen} className="font-medium md:hidden">
               <Menu size={30} />
             </button>
 
-            {isAccessTokenValid() && (
+            {isLoggedIn && (
               <Link to="/profile">
                 <Avatar className="hover:cursor-pointer bg-amber-300 flex items-center justify-center">
                   <AvatarImage
@@ -111,12 +97,11 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* sidebar responsive nav */}
-      {/* <MobileNav isOpen={isOpen} closeMenu={closeMenu} /> */}
+      {/* Sidebar mobile menu */}
       <div
-        ref={menuRef}
-        className={`fixed inset-y-0 right-0 z-50 w-64  bg-white shadow-md p-6 transition-transform duration-300 ease-in-out transform ${
-          isOpen ? "translate-x-0 " : "translate-x-full "
+        ref={sidebarRef}
+        className={`fixed inset-y-0 right-0 z-50 w-64 bg-white shadow-md p-6 transition-transform duration-300 ease-in-out transform ${
+          isOpen ? "translate-x-0" : "translate-x-full"
         } lg:hidden`}
       >
         <nav>
@@ -124,32 +109,39 @@ const Navbar = () => {
             <Button
               onClick={closeMenu}
               variant="destructive"
-              className="px-4 py-2 hover:cursor-pointer text-white rounded w-1/4 self-end"
+              className="px-4 py-2 text-white rounded w-1/4 self-end"
             >
               <X />
             </Button>
-            <Link className="font-medium text-body-sm  " to="/">
-              <li className="bg-gray-200 py-3 px-2 rounded-md">Home</li>
-            </Link>
-            <Link className="font-medium text-body-sm  " to="/trips">
-              <li className="bg-gray-200 py-3 px-2 rounded-md">My Trips</li>
-            </Link>
-            <Link className="font-medium text-body-sm " to="/about">
-              <li className="bg-gray-200 py-3 px-2 rounded-md">About</li>
-            </Link>
 
-            {!isAccessTokenValid() && (
+            {["Home", "My Trips", "About"].map((label, i) => (
+              <Link
+                key={i}
+                to={
+                  label === "Home"
+                    ? "/"
+                    : `/${label.toLowerCase().replace(" ", "")}`
+                }
+                onClick={closeMenu}
+                className="font-medium text-body-sm"
+              >
+                <li className="bg-gray-200 py-3 px-2 rounded-md">{label}</li>
+              </Link>
+            ))}
+
+            {!isLoggedIn && (
               <>
-                <Link className="font-medium text-body-sm" to="/login">
-                  <Button variant="default" className="w-full">
-                    Login
-                  </Button>
-                </Link>
-                <Link className="font-medium text-body-sm " to="/register">
-                  <Button variant="secondary" className="w-full">
-                    Register
-                  </Button>
-                </Link>
+                <Button asChild className="w-full" onClick={closeMenu}>
+                  <Link to="/login">Login</Link>
+                </Button>
+                <Button
+                  variant="secondary"
+                  asChild
+                  className="w-full"
+                  onClick={closeMenu}
+                >
+                  <Link to="/register">Register</Link>
+                </Button>
               </>
             )}
           </ul>
