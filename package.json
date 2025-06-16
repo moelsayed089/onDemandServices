@@ -28,6 +28,7 @@
     "react-hot-toast": "^2.5.2",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.6.0",
+    "rollup-plugin-visualizer": "^6.0.3",
     "tailwind-merge": "^3.3.0",
     "tailwindcss": "^4.1.7",
     "yup": "^1.6.1"
