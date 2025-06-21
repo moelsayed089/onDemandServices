@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../atoms/Logo";
 import { Menu, X } from "lucide-react";
 import { Button } from "../atoms/Button";
@@ -6,8 +6,13 @@ import { useEffect, useRef, useState } from "react";
 import { Avatar } from "../atoms/Avatar";
 import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { DropdownMenu } from "../atoms/DropdownMenu";
+import { useDispatch } from "react-redux";
+import { logoutSuccess } from "../../../features/auth/authSlice";
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [isOpen, setIsOpen] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
 
@@ -42,6 +47,11 @@ const Navbar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isOpen]);
+
+  const handleLogout = () => {
+    dispatch(logoutSuccess());
+    navigate("/login");
+  };
 
   return (
     <>
@@ -83,17 +93,21 @@ const Navbar = () => {
             {isLoggedIn && (
               <DropdownMenu>
                 <DropdownMenu.Trigger>
-                  <Avatar className="cursor-pointer">
+                  <Avatar className="hover:cursor-pointer bg-gray-200 flex items-center justify-center">
                     <AvatarImage
                       src="https://www.gravatar.com/avatar/"
-                      alt="User Avatar"
+                      alt="@shadcn.png"
                     />
-                    <AvatarFallback>U</AvatarFallback>
+                    <AvatarFallback>MP</AvatarFallback>
                   </Avatar>
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Content>
-                  <DropdownMenu.Item>Profile</DropdownMenu.Item>
-                  <DropdownMenu.Item>Settings</DropdownMenu.Item>
+                  <DropdownMenu.Item>
+                    <Link to="/profile">Profile</Link>
+                  </DropdownMenu.Item>
+                  <DropdownMenu.Item onClick={handleLogout}>
+                    Logout
+                  </DropdownMenu.Item>
                 </DropdownMenu.Content>
               </DropdownMenu>
             )}

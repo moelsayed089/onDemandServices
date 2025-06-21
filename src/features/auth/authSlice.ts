@@ -38,6 +38,7 @@ const authSlice = createSlice({
     logoutSuccess: (state) => {
       state.role = null;
       state.accessToken = null;
+      state.accessTokenExpires = null;
       localStorage.removeItem("role");
       localStorage.removeItem("accessToken");
       localStorage.removeItem("accessTokenExpires");
