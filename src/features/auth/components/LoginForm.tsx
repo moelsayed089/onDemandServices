@@ -1,13 +1,11 @@
 import FormField from "../../../shared/components/molecules/FormField";
-import Image from "../../../shared/components/atoms/Image";
-import image from "../../../assets/images/mainlogin.png";
 import { Button } from "../../../shared/components/atoms/Button";
 import { useFormik } from "formik";
 import useLoginAuth from "../services/loginAuth";
-
 import AuthHeader from "./AuthHeader";
 import { LoginSchema } from "../validation/LoginSchema";
 import { Link } from "react-router-dom";
+import MainImageAuth from "./atoms/MainImageAuth";
 
 const LoginForm = () => {
   const { mutate, isPending } = useLoginAuth();
@@ -65,11 +63,7 @@ const LoginForm = () => {
       </div>
 
       <div className="hidden md:block w-1/2 h-full">
-        <Image
-          src={image}
-          alt="login illustration"
-          className="w-full h-full object-cover"
-        />
+        <MainImageAuth />
       </div>
     </div>
   );

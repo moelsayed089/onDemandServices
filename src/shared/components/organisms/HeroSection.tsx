@@ -4,7 +4,7 @@ import { Button } from "../atoms/Button";
 const HeroSection = () => {
   return (
     <section
-      className="relative h-[calc(100vh-86px)] bg-gray-500 bg-cover bg-center p-4"
+      className="relative h-[calc(100vh-68px)] bg-gray-500 bg-cover bg-center p-4"
       style={{ backgroundImage: `url(${HeroImage})` }}
     >
       <div className="absolute inset-0 bg-main-color/25 z-0" />

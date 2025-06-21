@@ -1,11 +1,10 @@
 import { useFormik } from "formik";
 import { Button } from "../../../shared/components/atoms/Button";
-import Image from "../../../shared/components/atoms/Image";
 import FormField from "../../../shared/components/molecules/FormField";
 import AuthHeader from "./AuthHeader";
 import { ForgetPasswordSchema } from "../validation/ForgetPasswordSchema";
 import useForgetPassword from "../services/ForgetPasswordApi";
-import image from "../../../assets/images/mainlogin.png";
+import MainImageAuth from "./atoms/MainImageAuth";
 
 const ForgetPasswordForm = () => {
   const { mutate, isPending } = useForgetPassword();
@@ -43,11 +42,7 @@ const ForgetPasswordForm = () => {
       </div>
 
       <div className="hidden md:block w-1/2 h-full">
-        <Image
-          src={image}
-          alt="login illustration"
-          className="w-full h-full object-cover"
-        />
+        <MainImageAuth />
       </div>
     </div>
   );

@@ -38,9 +38,9 @@ const Navbar = () => {
   return (
     <>
       <nav className="flex items-center relative z-10 justify-between p-4 bg-white shadow-md">
-        <div className="flex items-center gap-8">
-          <Logo width="w-16" />
-          <ul className="md:flex gap-4 hidden">
+        <div className="flex items-center gap-4">
+          <Logo width="w-32" />
+          <ul className="md:flex gap-4 hidden ">
             <NavLinks />
           </ul>
         </div>

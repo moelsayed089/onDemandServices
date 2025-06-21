@@ -2,10 +2,9 @@ import { useFormik } from "formik";
 import AuthHeader from "./AuthHeader";
 import FormField from "../../../shared/components/molecules/FormField";
 import { Button } from "../../../shared/components/atoms/Button";
-import Image from "../../../shared/components/atoms/Image";
-import image from "../../../assets/images/mainlogin.png";
 import useRestPassword from "../services/RestPasswordApi";
 import { RestPasswordSchema } from "../validation/RestPasswordSchema";
+import MainImageAuth from "./atoms/MainImageAuth";
 
 const RestPasswordForm = () => {
   const fields: {
@@ -77,11 +76,7 @@ const RestPasswordForm = () => {
       </div>
 
       <div className="hidden md:block w-1/2 h-full">
-        <Image
-          src={image}
-          alt="login illustration"
-          className="w-full h-full object-cover"
-        />
+        <MainImageAuth />
       </div>
     </div>
   );

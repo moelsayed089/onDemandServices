@@ -1,11 +1,10 @@
 import { useFormik } from "formik";
 import { Button } from "../../../shared/components/atoms/Button";
-import Image from "../../../shared/components/atoms/Image";
 import FormField from "../../../shared/components/molecules/FormField";
 import AuthHeader from "./AuthHeader";
-import image from "../../../assets/images/mainlogin.png";
 import useRestCode from "../services/ResetCodeApi";
 import { ResetCodeSchema } from "../validation/RestCodeSchema";
+import MainImageAuth from "./atoms/MainImageAuth";
 
 const ResetCodeForm = () => {
   const { mutate, isPending } = useRestCode();
@@ -46,11 +45,7 @@ const ResetCodeForm = () => {
       </div>
 
       <div className="hidden md:block w-1/2 h-full">
-        <Image
-          src={image}
-          alt="login illustration"
-          className="w-full h-full object-cover"
-        />
+        <MainImageAuth />
       </div>
     </div>
   );
