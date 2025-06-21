@@ -5,7 +5,7 @@ import { Button } from "../atoms/Button";
 import { useEffect, useRef, useState } from "react";
 import { Avatar } from "../atoms/Avatar";
 import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import { DropdownMenu } from "../atoms/DropdownMenu";
+import { DropdownMenu } from "../molecules/DropdownMenu";
 import { useDispatch } from "react-redux";
 import { logoutSuccess } from "../../../features/auth/authSlice";
 
