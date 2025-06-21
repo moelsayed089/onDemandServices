@@ -8,6 +8,7 @@ import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { DropdownMenu } from "../molecules/DropdownMenu";
 import { useDispatch } from "react-redux";
 import { logoutSuccess } from "../../../features/auth/authSlice";
+import { isAccessTokenValid } from "../../../utils/isAccessTokenValid";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -18,14 +19,6 @@ const Navbar = () => {
 
   const toggleOpen = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
-
-  const accessToken = localStorage.getItem("accessToken");
-  const accessTokenExpires = localStorage.getItem("accessTokenExpires");
-
-  const isAccessTokenValid = () => {
-    if (!accessToken || !accessTokenExpires) return false;
-    return new Date() < new Date(accessTokenExpires);
-  };
 
   const isLoggedIn = isAccessTokenValid();
 
