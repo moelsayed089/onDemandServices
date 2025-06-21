@@ -5,6 +5,7 @@ import { Button } from "../atoms/Button";
 import { useEffect, useRef, useState } from "react";
 import { Avatar } from "../atoms/Avatar";
 import { AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+import { DropdownMenu } from "../atoms/DropdownMenu";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -78,21 +79,28 @@ const Navbar = () => {
                 </Button>
               </>
             )}
+
+            {isLoggedIn && (
+              <DropdownMenu>
+                <DropdownMenu.Trigger>
+                  <Avatar className="cursor-pointer">
+                    <AvatarImage
+                      src="https://www.gravatar.com/avatar/"
+                      alt="User Avatar"
+                    />
+                    <AvatarFallback>U</AvatarFallback>
+                  </Avatar>
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Content>
+                  <DropdownMenu.Item>Profile</DropdownMenu.Item>
+                  <DropdownMenu.Item>Settings</DropdownMenu.Item>
+                </DropdownMenu.Content>
+              </DropdownMenu>
+            )}
+
             <button onClick={toggleOpen} className="font-medium md:hidden">
               <Menu size={30} />
             </button>
-
-            {isLoggedIn && (
-              <Link to="/profile">
-                <Avatar className="hover:cursor-pointer bg-amber-300 flex items-center justify-center">
-                  <AvatarImage
-                    src="https://github.com/shadcn.png"
-                    alt="@shadcn.png"
-                  />
-                  <AvatarFallback>MP</AvatarFallback>
-                </Avatar>
-              </Link>
-            )}
           </ul>
         </div>
       </nav>
