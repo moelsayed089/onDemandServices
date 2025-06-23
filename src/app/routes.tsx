@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import { lazy } from "react";
+import Start from "../pages/Start";
 
 // Layouts
 const RooyLayout = lazy(() => import("./Layout/RooyLayout"));
@@ -38,6 +39,7 @@ const router = createBrowserRouter([
       { path: "/", element: <Home /> },
       { path: "/about", element: <AboutSection /> },
       { path: "/test", element: <Test /> },
+      { path: "/start", element: <Start /> },
       { path: "/profile", element: <TokenRefresher /> },
       { path: "*", element: <ErrorHandler /> },
     ],

@@ -1,10 +1,10 @@
 import HeroImage from "../../../assets/images/HeroSection/HeroImage.webp";
-import { Button } from "../atoms/Button";
+import StarterCheckIsLoggin from "../molecules/StarterCheckIsLoggin";
 
 const HeroSection = () => {
   return (
     <section
-      className="relative h-[calc(100vh-68px)] bg-gray-500 bg-cover bg-center p-4"
+      className="relative h-[calc(100vh-60px)] bg-gray-500 bg-cover bg-center p-4"
       style={{ backgroundImage: `url(${HeroImage})` }}
     >
       <div className="absolute inset-0 bg-main-color/25 z-0" />
@@ -15,17 +15,12 @@ const HeroSection = () => {
           <br /> to move your supplies.
         </h1>
 
-        <p className="mt-4 text-white text-body-md leading-body-md md:text-body-lg md:leading-body-lg lg:text-body-xl lg:leading-body-xl md:max-w-[80%]">
+        <p className="mt-4 mb-5 text-white text-body-md leading-body-md md:text-body-lg md:leading-body-lg lg:text-body-xl lg:leading-body-xl md:max-w-[80%]">
           Explore transportation operations, types of goods, and transportation
           stations.
         </p>
 
-        <Button
-          variant="secondary"
-          className="mt-4 py-5 w-[200px] text-body-md hover:cursor-pointer"
-        >
-          Start Now
-        </Button>
+        <StarterCheckIsLoggin variant="secondary" />
       </div>
     </section>
   );
