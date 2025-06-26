@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import { lazy } from "react";
 import Start from "../pages/Start";
+// import Profile from "../features/profile/pages/Profile";
 
 // Layouts
 const RooyLayout = lazy(() => import("./Layout/RooyLayout"));
@@ -15,9 +16,9 @@ const AboutSection = lazy(
   () => import("../shared/components/organisms/AboutSection")
 );
 const Test = lazy(() => import("../pages/Test"));
-const TokenRefresher = lazy(() => import("../pages/TokenRefresher"));
+// const TokenRefresher = lazy(() => import("../pages/TokenRefresher"));
 const ErrorHandler = lazy(() => import("../pages/ErrorHandler"));
-
+const Profile = lazy(() => import("../features/profile/pages/Profile"));
 // Auth Pages
 const Login = lazy(() => import("../features/auth/pages/Login"));
 const Signup = lazy(() => import("../features/auth/pages/Signup"));
@@ -40,7 +41,17 @@ const router = createBrowserRouter([
       { path: "/about", element: <AboutSection /> },
       { path: "/test", element: <Test /> },
       { path: "/start", element: <Start /> },
-      { path: "/profile", element: <TokenRefresher /> },
+      // { path: "/profile", element: <TokenRefresher /> },
+      {
+        path: "/profile",
+        element: <ProtectedLayout allowedRoles={["customer"]} />,
+        children: [
+          {
+            path: "",
+            element: <Profile />,
+          },
+        ],
+      },
       { path: "*", element: <ErrorHandler /> },
     ],
   },

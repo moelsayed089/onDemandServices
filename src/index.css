@@ -47,6 +47,8 @@
   --color-green-color: var(--green-color);
   --color-gray-color: var(--gray-color);
   --color-input-color: var(--input-color);
+  --color-dark-color: var(--dark-color);
+  --color-pragraph-color: var(--pragraph-color);
   --font-poppins: 'Poppins', sans-serif;
   --font-roboto: 'Roboto', sans-serif;
 
@@ -117,6 +119,8 @@
   --gray-color: #333333;
   --input-color: #E7E7E7;
   --container-padding: 15px;
+  --dark-color: #111827;
+  --pragraph-color: #4B5563;
 
 }
 
