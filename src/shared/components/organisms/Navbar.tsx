@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { isAccessTokenValid } from "../../../utils/isAccessTokenValid";
 import Logo from "../atoms/Logo";
 import { NavLinks } from "../molecules/NavLinks";
 import { AuthButtons } from "../molecules/AuthButtons";
@@ -11,6 +10,14 @@ import { MobileSidebar } from "../molecules/MobileSidebar";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
+  const accessToken = localStorage.getItem("accessToken");
+  const accessTokenExpires = localStorage.getItem("accessTokenExpires");
+
+  const isAccessTokenValid = () => {
+    if (!accessToken || !accessTokenExpires) return false;
+    return new Date() < new Date(accessTokenExpires);
+  };
+
   const isLoggedIn = isAccessTokenValid();
 
   const toggleOpen = () => setIsOpen(!isOpen);
