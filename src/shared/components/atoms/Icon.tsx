@@ -1,8 +1,10 @@
 import {
+  Mail,
   MapPinMinus,
   MoonStar,
   Plane,
   Shield,
+  SquarePen,
   type LucideIcon,
 } from "lucide-react";
 
@@ -11,13 +13,17 @@ export type IconName =
   | "planet"
   | "map-pin-minus"
   | "moon-star"
-  | "shield";
+  | "shield"
+  | "mail"
+  | "square-pen";
 
 const iconMap: Record<IconName, LucideIcon> = {
   plane: Plane,
   "map-pin-minus": MapPinMinus,
   "moon-star": MoonStar,
   shield: Shield,
+  mail: Mail,
+  "square-pen": SquarePen,
 };
 
 interface IconProps {
