@@ -19,8 +19,11 @@ const FormField: React.FC<FormFieldProps> = ({
   return (
     <>
       <div className="flex flex-col gap-1">
-        <Label htmlFor={id}>{label}</Label>
+        <Label htmlFor={id} className="mb-1">
+          {label}
+        </Label>
         <Input
+          className="bg-gray-100 border-0"
           id={id}
           type={type}
           placeholder={placeholder}
