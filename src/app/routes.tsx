@@ -1,6 +1,14 @@
 import { createBrowserRouter } from "react-router-dom";
 import { lazy } from "react";
-import Start from "../pages/Start";
+// import Start from "../pages/Start";
+import StartPage from "../features/moves/pages/StartPage";
+import StartLayout from "./Layout/StartLayout";
+import Insurance from "../features/moves/pages/Insurance";
+import CreateOrder from "../features/moves/pages/CreateOrder";
+import GetAllOrderPage from "../features/moves/pages/GetAllOrderPage";
+import GetOrderDetails from "../features/moves/pages/GetOrderDetails";
+import AdminNotFound from "../features/dashboard/pages/AdminNotFound";
+import CustomerPage from "../features/dashboard/pages/CustomerPage";
 // import Profile from "../features/profile/pages/Profile";
 
 // Layouts
@@ -39,8 +47,10 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Home /> },
       { path: "/about", element: <AboutSection /> },
+      { path: "/trips", element: <GetAllOrderPage /> },
+      { path: "/trips/:id", element: <GetOrderDetails /> },
       { path: "/test", element: <Test /> },
-      { path: "/start", element: <Start /> },
+      // { path: "/start", element: <StartPage /> },
       // { path: "/profile", element: <TokenRefresher /> },
       {
         path: "/profile",
@@ -52,7 +62,41 @@ const router = createBrowserRouter([
           },
         ],
       },
+      // {
+      //   path: "/start",
+      //   element: <ProtectedLayout allowedRoles={["customer"]} />,
+      //   children: [
+      //     {
+      //       path: "",
+      //       element: <StartPage />,
+      //     },
+      //   ],
+      // },
       { path: "*", element: <ErrorHandler /> },
+    ],
+  },
+
+  //StartLayout
+  {
+    path: "/start",
+    element: <StartLayout />,
+    children: [
+      {
+        path: "",
+        element: <StartPage />,
+      },
+      {
+        path: "insurance",
+        element: <Insurance />,
+      },
+      {
+        path: "order",
+        element: <CreateOrder />,
+      },
+      {
+        path: "payment",
+        element: <div>Payment</div>,
+      },
     ],
   },
 
@@ -74,7 +118,7 @@ const router = createBrowserRouter([
   // Admin Layout
   {
     path: "/admin",
-    element: <ProtectedLayout allowedRoles={["admin"]} />,
+    element: <ProtectedLayout allowedRoles={["superAdmin"]} />,
     children: [
       {
         path: "",
@@ -82,8 +126,11 @@ const router = createBrowserRouter([
         children: [
           { path: "", element: <div>Admin</div> },
           { path: "dashboard", element: <div>Admin Dashboard</div> },
+          { path: "customers", element: <CustomerPage /> },
         ],
       },
+
+      { path: "*", element: <AdminNotFound /> },
     ],
   },
 
