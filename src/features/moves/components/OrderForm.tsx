@@ -109,8 +109,7 @@ const OrderForm = () => {
 
   return (
     <LoadScript
-      // googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
-      googleMapsApiKey="AIzaSyAdvwX9PKWFuHIVYhBcE0q6qnFG7aRaCbw"
+      googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
       libraries={libraries}
     >
       <form
