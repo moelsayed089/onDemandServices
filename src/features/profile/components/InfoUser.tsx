@@ -7,7 +7,7 @@ import Icon from "../../../shared/components/atoms/Icon";
 // import Loading from "../../../shared/components/molecules/Loading";
 import CapitalizeEachWord from "../../../utils/capitalizeEachWord";
 import EditProfileDialog from "./EditProfileDialog";
-import InfoUserSkeleton from "./InfoUserSkeleton";
+import InfoUserSkeleton from "./LoadingSkeleton/InfoUserSkeleton";
 
 const InfoUser = () => {
   const { data, isLoading, isError } = useGetUserData();

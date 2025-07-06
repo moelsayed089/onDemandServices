@@ -4,7 +4,7 @@ import {
   formatTime,
 } from "../../../utils/GetDateAndDayes";
 import useGetUserData from "../services/GetUserData";
-import AccountActivitySkeleton from "./AccountActivitySkeleton";
+import AccountActivitySkeleton from "./LoadingSkeleton/AccountActivitySkeleton";
 
 const AccountActivity = () => {
   const { data, isLoading } = useGetUserData();

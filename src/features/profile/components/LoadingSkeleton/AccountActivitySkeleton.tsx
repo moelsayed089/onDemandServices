@@ -1,4 +1,4 @@
-import { Skeleton } from "../../../shared/components/atoms/Skeleton";
+import { Skeleton } from "../../../../shared/components/atoms/Skeleton";
 
 const AccountActivitySkeleton = () => {
   return (

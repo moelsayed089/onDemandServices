@@ -3,7 +3,7 @@ import FormField from "../../../shared/components/molecules/FormField";
 import CapitalizeEachWord from "../../../utils/capitalizeEachWord";
 import useGetUserData from "../services/GetUserData";
 import EditPasswordProfileDialog from "./EditPasswordProfileDialog";
-import PersonalInformationSkeleton from "./PersonalInformationSkeleton";
+import PersonalInformationSkeleton from "./LoadingSkeleton/PersonalInformationSkeleton";
 
 const PersonalInformation = () => {
   const { data, isLoading, isError } = useGetUserData();
