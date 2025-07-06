@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { isAccessTokenValid } from "../../../utils/isAccessTokenValid";
 import { Button } from "../atoms/Button";
 
 interface StarterCheckIsLogginProps {
@@ -16,6 +15,14 @@ const StarterCheckIsLoggin: React.FC<StarterCheckIsLogginProps> = ({
   variant = "default",
   className,
 }) => {
+  const accessToken = localStorage.getItem("accessToken");
+  const accessTokenExpires = localStorage.getItem("accessTokenExpires");
+
+  const isAccessTokenValid = () => {
+    if (!accessToken || !accessTokenExpires) return false;
+    return new Date() < new Date(accessTokenExpires);
+  };
+
   const isLoggedIn = isAccessTokenValid();
 
   return (

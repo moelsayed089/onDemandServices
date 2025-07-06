@@ -1,29 +1,56 @@
 import { Input } from "../atoms/Input";
 import { Label } from "../atoms/Label";
 
-interface FormFieldProps extends React.ComponentProps<"input"> {
+interface Option {
+  label: string;
+  value: string;
+}
+
+type BaseProps = {
   id: string;
   label: string;
   error?: string;
   noSpaces?: boolean;
-}
-const FormField: React.FC<FormFieldProps> = ({
+  options?: Option[];
+  type?: string;
+} & React.InputHTMLAttributes<HTMLInputElement | HTMLSelectElement>;
+
+const FormField: React.FC<BaseProps> = ({
   id,
   label,
-  type,
+  type = "text",
   placeholder,
   error,
   noSpaces,
+  options = [],
   ...props
 }) => {
+  const isSelect = type === "select";
+
   return (
-    <>
-      <div className="flex flex-col gap-1">
-        <Label htmlFor={id} className="mb-1">
-          {label}
-        </Label>
+    <div className="flex flex-col gap-1">
+      <Label htmlFor={id} className="mb-1">
+        {label}
+      </Label>
+
+      {isSelect ? (
+        <select
+          id={id}
+          name={id}
+          className="bg-gray-100 border-0 p-2 rounded"
+          {...(props as React.SelectHTMLAttributes<HTMLSelectElement>)}
+        >
+          <option value="" disabled>
+            Select a vehicle
+          </option>
+          {options.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
+      ) : (
         <Input
-          className="bg-gray-100 border-0"
           id={id}
           type={type}
           placeholder={placeholder}
@@ -33,11 +60,12 @@ const FormField: React.FC<FormFieldProps> = ({
             }
             props.onKeyDown?.(e);
           }}
-          {...props}
+          {...(props as React.InputHTMLAttributes<HTMLInputElement>)}
         />
-        {error && <p className="text-red-600">{error}</p>}
-      </div>
-    </>
+      )}
+
+      {error && <p className="text-red-600 text-sm">{error}</p>}
+    </div>
   );
 };
 
