@@ -5,6 +5,7 @@ export const formatMonthYear = (dateStr?: string) => {
 
   return new Intl.DateTimeFormat("en-EG", {
     year: "numeric",
+    day: "numeric",
     month: "long",
   }).format(date);
 };
