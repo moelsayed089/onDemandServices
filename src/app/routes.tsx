@@ -9,6 +9,7 @@ import GetAllOrderPage from "../features/moves/pages/GetAllOrderPage";
 import GetOrderDetails from "../features/moves/pages/GetOrderDetails";
 import AdminNotFound from "../features/dashboard/pages/AdminNotFound";
 import CustomerPage from "../features/dashboard/pages/CustomerPage";
+import GetAllOrderPageAdmin from "../features/dashboard/pages/GetAllOrderPageAdmin";
 // import Profile from "../features/profile/pages/Profile";
 
 // Layouts
@@ -127,6 +128,7 @@ const router = createBrowserRouter([
           { path: "", element: <div>Admin</div> },
           { path: "dashboard", element: <div>Admin Dashboard</div> },
           { path: "customers", element: <CustomerPage /> },
+          { path: "orders", element: <GetAllOrderPageAdmin /> },
         ],
       },
 

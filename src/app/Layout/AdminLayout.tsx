@@ -18,7 +18,7 @@ const sidebarItems = [
   { icon: LayoutDashboard, label: "Dashboard", to: "/admin/dashboard" },
   { icon: Users, label: "Customers", to: "/admin/customers" },
   { icon: Car, label: "Drivers", to: "/admin/drivers" },
-  { icon: Calendar, label: "Bookings", to: "/admin/bookings" },
+  { icon: Calendar, label: "Bookings", to: "/admin/orders" },
   { icon: CreditCard, label: "Payments", to: "/admin/payments" },
   { icon: AlertTriangle, label: "Disputes", to: "/admin/disputes" },
   { icon: BarChart3, label: "Reports", to: "/admin/reports" },
