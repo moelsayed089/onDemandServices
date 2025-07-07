@@ -10,6 +10,7 @@ import GetOrderDetails from "../features/moves/pages/GetOrderDetails";
 import AdminNotFound from "../features/dashboard/pages/AdminNotFound";
 import CustomerPage from "../features/dashboard/pages/CustomerPage";
 import GetAllOrderPageAdmin from "../features/dashboard/pages/GetAllOrderPageAdmin";
+import DriversPage from "../features/dashboard/pages/DriversPage";
 // import Profile from "../features/profile/pages/Profile";
 
 // Layouts
@@ -129,6 +130,7 @@ const router = createBrowserRouter([
           { path: "dashboard", element: <div>Admin Dashboard</div> },
           { path: "customers", element: <CustomerPage /> },
           { path: "orders", element: <GetAllOrderPageAdmin /> },
+          { path: "drivers", element: <DriversPage /> },
         ],
       },
 
