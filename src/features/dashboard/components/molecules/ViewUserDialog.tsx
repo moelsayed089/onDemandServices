@@ -6,7 +6,6 @@ import FormField from "../../../../shared/components/molecules/FormField";
 
 const ViewUserDialog = ({ userId }: { userId: string }) => {
   const { data, isLoading, isError } = useGetUserDetails(userId!);
-  console.log(data?.data);
   const user = data?.data;
   return (
     <Dialog>

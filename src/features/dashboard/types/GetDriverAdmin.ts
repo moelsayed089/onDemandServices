@@ -66,3 +66,8 @@ export interface DriversResponse {
   results: number;
   data: DriverData[];
 }
+
+export interface DriverResponseDetails {
+  status: "success" | string;
+  data: DriverData;
+}

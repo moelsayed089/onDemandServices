@@ -14,12 +14,12 @@ import { Input } from "../../../../shared/components/atoms/Input";
 import { useEffect, useState } from "react";
 import UserTableSkeleton from "../loadingSkeleton/UserTableSkeleton";
 import { Pagination } from "../../../../shared/components/atoms/Pagination";
+import ViewDriverAdminDialog from "../molecules/ViewDriverAdminDialog";
 const DriverFormAdmin = () => {
   const [page, setPage] = useState(1);
   const limit = 10;
   const { data, isLoading } = useGetALLDrivers(page, limit);
   const drivers = data?.data;
-  console.log(data?.data);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
@@ -92,7 +92,8 @@ const DriverFormAdmin = () => {
                   <TableHead>Model</TableHead>
                   <TableHead>Available</TableHead>
                   <TableHead>Created At</TableHead>
-                  <TableHead>Phone</TableHead>
+
+                  <TableHead>Action</TableHead>
                 </TableRow>
               </TableHeader>
 
@@ -138,7 +139,9 @@ const DriverFormAdmin = () => {
 
                     <TableCell>{formatFullDate(driver.createdAt)}</TableCell>
 
-                    <TableCell>{driver.user.phone}</TableCell>
+                    <TableCell>
+                      <ViewDriverAdminDialog userId={driver._id} />
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
