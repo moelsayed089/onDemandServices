@@ -49,8 +49,8 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Home /> },
       { path: "/about", element: <AboutSection /> },
-      { path: "/trips", element: <GetAllOrderPage /> },
-      { path: "/trips/:id", element: <GetOrderDetails /> },
+      // { path: "/trips", element: <GetAllOrderPage /> },
+      // { path: "/trips/:id", element: <GetOrderDetails /> },
       { path: "/test", element: <Test /> },
       // { path: "/start", element: <StartPage /> },
       // { path: "/profile", element: <TokenRefresher /> },
@@ -64,16 +64,20 @@ const router = createBrowserRouter([
           },
         ],
       },
-      // {
-      //   path: "/start",
-      //   element: <ProtectedLayout allowedRoles={["customer"]} />,
-      //   children: [
-      //     {
-      //       path: "",
-      //       element: <StartPage />,
-      //     },
-      //   ],
-      // },
+      {
+        path: "/trips",
+        element: <ProtectedLayout allowedRoles={["customer"]} />,
+        children: [
+          {
+            path: "",
+            element: <GetAllOrderPage />,
+          },
+          {
+            path: ":id",
+            element: <GetOrderDetails />,
+          },
+        ],
+      },
       { path: "*", element: <ErrorHandler /> },
     ],
   },
