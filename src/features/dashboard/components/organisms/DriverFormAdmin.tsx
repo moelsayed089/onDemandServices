@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import UserTableSkeleton from "../loadingSkeleton/UserTableSkeleton";
 import { Pagination } from "../../../../shared/components/atoms/Pagination";
 import ViewDriverAdminDialog from "../molecules/ViewDriverAdminDialog";
+import UpdateStatusDriverAdminDialog from "../molecules/UpdateStatusDriverAdminDialog";
 const DriverFormAdmin = () => {
   const [page, setPage] = useState(1);
   const limit = 10;
@@ -139,8 +140,9 @@ const DriverFormAdmin = () => {
 
                     <TableCell>{formatFullDate(driver.createdAt)}</TableCell>
 
-                    <TableCell>
+                    <TableCell className="flex items-center gap-2">
                       <ViewDriverAdminDialog userId={driver._id} />
+                      <UpdateStatusDriverAdminDialog user_id={driver._id} />
                     </TableCell>
                   </TableRow>
                 ))}
