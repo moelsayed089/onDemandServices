@@ -66,7 +66,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/trips",
-        element: <ProtectedLayout allowedRoles={["customer"]} />,
+        element: (
+          <ProtectedLayout
+            allowedRoles={["customer", "superadmin", "driver"]}
+          />
+        ),
         children: [
           {
             path: "",
