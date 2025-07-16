@@ -67,11 +67,10 @@ It allows users to submit delivery requests, estimate prices based on distance a
 - 📱 **Responsive Design**
   - Mobile-first layout
   - Fully adaptive on all screen sizes
--
 
 ## 📁 Project Structure
 
-srsrc/
+src/
 ├── app/
 │ ├── api/ # Axios config or API layer
 │ ├── Layout/ # Layout components like headers, sidebars
