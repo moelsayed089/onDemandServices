@@ -116,7 +116,7 @@ src/
 
 ## 🌐 Live Demo
 
-Check the live version: [ondemand-services.vercel.app](https://ondemand-services.vercel.app)
+Check the live version: [ondemand-services.vercel.app](https://on-demand-services-rose.vercel.app/)
 
 ## 🚧 Future Enhancements
 
