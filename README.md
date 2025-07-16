@@ -70,6 +70,52 @@ It allows users to submit delivery requests, estimate prices based on distance a
 
 ## 📁 Project Structure
 
+```txt
+src/
+├── app/
+│   ├── api/                 # Axios config or API layer
+│   ├── Layout/              # Layout components like headers, sidebars
+│   ├── App.tsx              # Main app component
+│   ├── main.tsx             # Vite entry point
+│   ├── routes.tsx           # Route configuration
+│   └── store.ts             # Redux store setup
+│
+├── assets/                  # Static assets (icons, images)
+│
+├── features/                # Domain-level features
+│   ├── move/                # Delivery request and tracking
+│   │   ├── components/      # UI components for delivery features
+│   │   ├── pages/           # Pages: CreateRequest, TrackRequest, etc.
+│   │   ├── services/        # API service functions (e.g., estimate, location)
+│   │   ├── types/           # TypeScript type definitions and enums
+│   │   └── validation/      # Yup validation schemas
+│   ├── auth/                # Authentication logic
+│   ├── dashboard/           # Dashboard pages & components
+│   └── profile/             # User profile management
+│
+├── lib/
+│   └── utils.ts             # Helper functions and external lib wrappers
+│
+├── pages/                   # Page-level components
+│   ├── ErrorHandler.tsx
+│   ├── Home.tsx
+│   ├── Start.tsx
+│   ├── Test.tsx
+│   └── TokenRefresher.tsx   # Handles token refresh logic
+│
+├── shared/                  # Reusable UI and design system
+│   ├── components/
+│   │   ├── atoms/           # Small, indivisible UI elements
+│   │   ├── molecules/       # Combinations of atoms
+│   │   └── organisms/       # Complex, reusable UI sections
+│   └── ui/                  # Components from shadcn/ui or extended components
+│
+├── data/                    # Static or mock data (if any)
+│
+├── utils/
+│   └── utils.ts
+
+
 src/
 ├── app/
 │ ├── api/ # Axios config or API layer
@@ -124,5 +170,6 @@ Check the live version: [ondemand-services.vercel.app](https://ondemand-services
 
 ## 👨‍💻 Author
 
-Made with ❤️ by **Mohamed Elsayed**  
+Made with ❤️ by **Mohamed Elsayed**
 GitHub: [@moelsayed089](https://github.com/moelsayed089)
+```
