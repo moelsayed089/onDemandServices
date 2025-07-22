@@ -33,6 +33,9 @@ const ViewUserDialog = ({ userId }: { userId: string }) => {
         {user && (
           <div className="flex flex-col gap-2 py-4 text-sm">
             <div>
+              <FormField id="id" label="User ID" readOnly value={user._id} />
+            </div>
+            <div>
               <FormField id="name" label="Name" readOnly value={user.name} />
             </div>
 

@@ -49,14 +49,16 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Home /> },
       { path: "/about", element: <AboutSection /> },
-      // { path: "/trips", element: <GetAllOrderPage /> },
-      // { path: "/trips/:id", element: <GetOrderDetails /> },
+
       { path: "/test", element: <Test /> },
-      // { path: "/start", element: <StartPage /> },
-      // { path: "/profile", element: <TokenRefresher /> },
+
       {
         path: "/profile",
-        element: <ProtectedLayout allowedRoles={["customer"]} />,
+        element: (
+          <ProtectedLayout
+            allowedRoles={["customer", "driver", "superAdmin"]}
+          />
+        ),
         children: [
           {
             path: "",
@@ -68,7 +70,7 @@ const router = createBrowserRouter([
         path: "/trips",
         element: (
           <ProtectedLayout
-            allowedRoles={["customer", "superadmin", "driver"]}
+            allowedRoles={["customer", "superAdmin", "driver"]}
           />
         ),
         children: [
