@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 
-const socket = io("https://swift-move.onrender.com", {
+const socket = io(import.meta.env.VITE_BASE_URL, {
   transports: ["websocket"],
   autoConnect: false,
 });
