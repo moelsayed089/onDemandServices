@@ -48,7 +48,7 @@ const Navbar = () => {
         <div className="flex items-center gap-4">
           <Logo width="w-32" />
           <ul className="md:flex gap-4 hidden ">
-            <NavLinks />
+            <NavLinks isLoggedIn={isLoggedIn} />
           </ul>
         </div>
 
