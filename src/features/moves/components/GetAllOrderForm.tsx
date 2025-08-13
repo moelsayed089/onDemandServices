@@ -44,7 +44,7 @@ const GetAllOrderForm = () => {
               orderNumber={`Order-${order._id.slice(-4)}`}
               orderDate={formatMonthYear(order.createdAt)}
               orderTime={formatTime(order.createdAt)}
-              total={`${order.pricing.totalPrice} EGP`}
+              total={`${order.pricing.totalPrice.toFixed(2)} EGP`}
               vehicleType={`BY ${order.vehicleType}`}
               deliveryStatus={order.status.replace(/_/g, " ")}
             />
