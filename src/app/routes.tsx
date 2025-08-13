@@ -1,17 +1,29 @@
 import { createBrowserRouter } from "react-router-dom";
 import { lazy } from "react";
+import HomePageDriver from "../features/driver/HomePageDriver";
 // import Start from "../pages/Start";
-import StartPage from "../features/moves/pages/StartPage";
-import StartLayout from "./Layout/StartLayout";
-import Insurance from "../features/moves/pages/Insurance";
-import CreateOrder from "../features/moves/pages/CreateOrder";
-import GetAllOrderPage from "../features/moves/pages/GetAllOrderPage";
-import GetOrderDetails from "../features/moves/pages/GetOrderDetails";
-import AdminNotFound from "../features/dashboard/pages/AdminNotFound";
-import CustomerPage from "../features/dashboard/pages/CustomerPage";
-import GetAllOrderPageAdmin from "../features/dashboard/pages/GetAllOrderPageAdmin";
-import DriversPage from "../features/dashboard/pages/DriversPage";
-// import Profile from "../features/profile/pages/Profile";
+const StartPage = lazy(() => import("../features/moves/pages/StartPage"));
+const StartLayout = lazy(() => import("./Layout/StartLayout"));
+const Insurance = lazy(() => import("../features/moves/pages/Insurance"));
+const CreateOrder = lazy(() => import("../features/moves/pages/CreateOrder"));
+const GetAllOrderPage = lazy(
+  () => import("../features/moves/pages/GetAllOrderPage")
+);
+const GetOrderDetails = lazy(
+  () => import("../features/moves/pages/GetOrderDetails")
+);
+const AdminNotFound = lazy(
+  () => import("../features/dashboard/pages/AdminNotFound")
+);
+const CustomerPage = lazy(
+  () => import("../features/dashboard/pages/CustomerPage")
+);
+const GetAllOrderPageAdmin = lazy(
+  () => import("../features/dashboard/pages/GetAllOrderPageAdmin")
+);
+const DriversPage = lazy(
+  () => import("../features/dashboard/pages/DriversPage")
+);
 
 // Layouts
 const RooyLayout = lazy(() => import("./Layout/RooyLayout"));
@@ -157,7 +169,7 @@ const router = createBrowserRouter([
         path: "",
         element: <DriverLayout />,
         children: [
-          { path: "", element: <div>Driver</div> },
+          { path: "", element: <HomePageDriver /> },
           { path: "dashboard", element: <div>Driver Dashboard</div> },
         ],
       },

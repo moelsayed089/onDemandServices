@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useEstimateOrder } from "../services/createOrder";
-import type { EstimateRequest, EstimateResponse } from "../types/orderForm";
+import type { EstimateRequest } from "../types/orderForm";
 import PriceEstimateSkeleton from "../LoadingSkeleton/PriceEstimateSkeleton";
 
 type Props = {
@@ -32,8 +32,7 @@ const EstimationBox = ({
       };
 
       mutate(payload, {
-        onSuccess: (res: EstimateResponse) => {
-          console.log("Estimate Response:", res);
+        onSuccess: () => {
           setIsReady(true);
         },
         onError: (err: unknown) => {
@@ -59,7 +58,6 @@ const EstimationBox = ({
     }
   }, [pickupCoords, deliveryCoords, vehicleType]);
 
-  console.log("Estimate Data:", data?.data);
   const durationInMinutes = data?.data?.duration ?? 0;
 
   const days = Math.floor(durationInMinutes / 1440);
