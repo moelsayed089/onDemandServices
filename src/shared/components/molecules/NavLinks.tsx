@@ -13,13 +13,13 @@ interface NavLinksProps {
 export const NavLinks: React.FC<NavLinksProps> = ({ onClick, className }) => (
   <>
     {LinksNav.map((link, index) => (
-      <li key={index}>
+      <li key={index} className={className}>
         <Link
           className="font-medium text-body-sm"
           to={link.path}
           onClick={onClick}
         >
-          <li className={className}>{link.label}</li>
+          {link.label}
         </Link>
       </li>
     ))}
