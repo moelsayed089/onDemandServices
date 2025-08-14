@@ -1,6 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import { lazy } from "react";
 import HomePageDriver from "../features/driver/HomePageDriver";
+import RedirectByRole from "./RedirectByRole";
+// import RedirectByRole from "./RedirectByRole";
 // import Start from "../pages/Start";
 const StartPage = lazy(() => import("../features/moves/pages/StartPage"));
 const StartLayout = lazy(() => import("./Layout/StartLayout"));
@@ -53,6 +55,11 @@ const ResetCode = lazy(() => import("../features/auth/pages/ResetCode"));
 const RestPassword = lazy(() => import("../features/auth/pages/RestPassword"));
 
 const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <RedirectByRole />, // بدل RooyLayout هنا
+    errorElement: <ErrorHandler />,
+  },
   // Root Layout
   {
     path: "/",
@@ -60,17 +67,14 @@ const router = createBrowserRouter([
     errorElement: <ErrorHandler />,
     children: [
       { path: "/", element: <Home /> },
+      { path: "/home", element: <Home /> },
       { path: "/about", element: <AboutSection /> },
 
       { path: "/test", element: <Test /> },
 
       {
         path: "/profile",
-        element: (
-          <ProtectedLayout
-            allowedRoles={["customer", "driver", "superAdmin"]}
-          />
-        ),
+        element: <ProtectedLayout allowedRoles={["customer"]} />,
         children: [
           {
             path: "",
@@ -80,11 +84,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/trips",
-        element: (
-          <ProtectedLayout
-            allowedRoles={["customer", "superAdmin", "driver"]}
-          />
-        ),
+        element: <ProtectedLayout allowedRoles={["customer"]} />,
         children: [
           {
             path: "",
