@@ -57,7 +57,7 @@ const RestPassword = lazy(() => import("../features/auth/pages/RestPassword"));
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <RedirectByRole />, // بدل RooyLayout هنا
+    element: <RedirectByRole />,
     errorElement: <ErrorHandler />,
   },
   // Root Layout
