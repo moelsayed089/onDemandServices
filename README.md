@@ -46,6 +46,7 @@ It allows users to submit delivery requests, estimate prices based on distance a
 
   - Displays live driver location on the map
   - Update coordinates through API
+  - Real-time location updates via socket io ✅
 
 - 📦 **Order Management**
 
@@ -121,7 +122,6 @@ Check the live version: [ondemand-services.vercel.app](https://on-demand-service
 ## 🚧 Future Enhancements
 
 - driver dashboard for full control over orders
-- Real-time location updates via socket io
 - Multi-language support (i18n)
 
 ## 👨‍💻 Author
