@@ -5,16 +5,12 @@ import type {
   EstimateRequest,
   EstimateResponse,
 } from "../types/orderForm";
-
 import { queryClient } from "../../../app/api/queryClient";
 
-import socket from "../../../app/api/socket";
 export const useCreateOrder = () =>
   usePostMutation<CreateOrderResponse, CreateOrderRequest>("/api/v1/moves", {
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["getUserOrders"] });
-
-      socket.emit("orderCreated", data);
     },
   });
 export const useEstimateOrder = () =>

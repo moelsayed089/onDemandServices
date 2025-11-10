@@ -1,62 +1,19 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import type { RootState } from "../app/store";
-import axiosInstance from "../app/api/axiosConfig";
-import { updateToken } from "../features/auth/authSlice";
+import { socketManager } from "../app/api/socketManager";
 
 const TokenRefresher = () => {
-  const dispatch = useDispatch();
-
-  const accessTokenExpires = useSelector(
-    (state: RootState) => state.loginAuth.accessTokenExpires
+  const accessToken = useSelector(
+    (state: RootState) => state.loginAuth.accessToken
   );
 
-  const handleRefreshToken = async () => {
-    try {
-      const response = await axiosInstance.post(
-        "/api/v1/auth/refresh-token",
-        null,
-        { withCredentials: true }
-      );
-
-      const { accessToken, accessTokenExpires } = response.data;
-
-      console.log("Token refreshed:", response.data);
-
-      dispatch(updateToken({ accessToken, accessTokenExpires }));
-    } catch (error) {
-      console.error("Error refreshing token:", error);
-    }
-  };
-
   useEffect(() => {
-    if (!accessTokenExpires) return;
-
-    const expiresAt = new Date(accessTokenExpires).getTime();
-    const now = new Date().getTime();
-
-    const timeRemaining = expiresAt - now;
-    const refreshBefore = 2 * 60 * 1000;
-
-    const refreshIn = timeRemaining - refreshBefore;
-
-    const totalSeconds = Math.floor(timeRemaining / 1000);
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
-
-    console.log(`Token expires in ${minutes} minutes and ${seconds} seconds.`);
-
-    if (refreshIn <= 0) {
-      handleRefreshToken();
-      return;
+    if (accessToken && socketManager.isConnected()) {
+      console.log("🔄 Updating socket authentication token...");
+      socketManager.updateToken(accessToken);
     }
-
-    const timer = setTimeout(() => {
-      handleRefreshToken();
-    }, refreshIn);
-
-    return () => clearTimeout(timer);
-  }, [accessTokenExpires]);
+  }, [accessToken]);
 
   return null;
 };
