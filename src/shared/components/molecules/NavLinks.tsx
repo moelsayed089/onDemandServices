@@ -26,7 +26,7 @@ export const NavLinks: React.FC<NavLinksProps> = ({
       {filteredLinks.map((link, index) => (
         <li key={index} className={className}>
           <Link
-            className="font-medium text-body-sm"
+            className="font-medium text-body-md hover:text-main-color "
             to={link.path}
             onClick={onClick}
           >

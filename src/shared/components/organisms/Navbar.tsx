@@ -44,7 +44,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="flex items-center relative z-10 justify-between p-4 bg-white border-b border-gray-200">
+      <nav className="flex items-center relative z-10 p-5 justify-between bg-white border-b border-gray-200">
         <div className="flex items-center gap-4">
           <Logo width="w-32" />
           <ul className="md:flex gap-4 hidden ">

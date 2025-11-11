@@ -17,7 +17,7 @@ export const MobileSidebar: React.FC<MobileSidebarProps> = ({
 }) => (
   <div
     ref={sidebarRef}
-    className={`fixed inset-y-0 right-0 z-50 w-64 bg-white shadow-md p-6 transition-transform duration-300 ease-in-out transform ${
+    className={`fixed inset-y-0 right-0 z-50 w-full bg-white shadow-md p-5 transition-transform duration-300 ease-in-out transform ${
       isOpen ? "translate-x-0" : "translate-x-full"
     } lg:hidden`}
   >
@@ -26,14 +26,14 @@ export const MobileSidebar: React.FC<MobileSidebarProps> = ({
         <Button
           onClick={closeMenu}
           variant="destructive"
-          className="px-4 py-2 text-white rounded w-1/4 self-end"
+          className=" text-white rounded self-end"
         >
           <X />
         </Button>
 
         <NavLinks
           onClick={closeMenu}
-          className="bg-gray-200 py-3 px-2 rounded-md"
+          className="bg-gray-200/50 py-3 px-2 rounded-sm"
         />
 
         {!isLoggedIn && <AuthButtons onClick={closeMenu} />}
