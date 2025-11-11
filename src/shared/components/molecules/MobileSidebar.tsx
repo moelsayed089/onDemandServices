@@ -34,6 +34,7 @@ export const MobileSidebar: React.FC<MobileSidebarProps> = ({
         <NavLinks
           onClick={closeMenu}
           className="bg-gray-200/50 py-3 px-2 rounded-sm"
+          isLoggedIn={isLoggedIn}
         />
 
         {!isLoggedIn && <AuthButtons onClick={closeMenu} />}
