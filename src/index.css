@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -49,8 +50,10 @@
   --color-input-color: var(--input-color);
   --color-dark-color: var(--dark-color);
   --color-pragraph-color: var(--pragraph-color);
-  --font-poppins: 'Poppins', sans-serif;
-  --font-roboto: 'Roboto', sans-serif;
+  --font-montserrat: 'Montserrat';
+
+  /* --font-poppins: 'Poppins', sans-serif;
+  --font-roboto: 'Roboto', sans-serif; */
 
   /* Headings */
   --text-heading-1: 80px;
@@ -59,8 +62,8 @@
   --text-heading-2: 52px;
   --leading-heading-2: 62px;
 
-  --text-heading-3: 50px;
-  --leading-heading-3: 60px;
+  --text-heading-3: 45px;
+  --leading-heading-3: 55px;
 
   --text-heading-4: 24px;
   --leading-heading-4: 34px;
@@ -173,6 +176,7 @@ body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+  font-family: var(--font-montserrat);
 }
 
 @layer base {

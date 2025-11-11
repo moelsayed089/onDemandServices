@@ -4,10 +4,14 @@ import StarterCheckIsLoggin from "../molecules/StarterCheckIsLoggin";
 const HeroSection = () => {
   return (
     <section
-      className="relative h-[calc(100vh-60px)] bg-gray-500 bg-cover bg-center p-4"
-      style={{ backgroundImage: `url(${HeroImage})` }}
+      className="relative h-[calc(100vh-60px)] bg-gray-600  p-4"
+      style={{
+        backgroundImage: `url(${HeroImage})`,
+        backgroundSize: " cover ",
+        backgroundPosition: "center",
+      }}
     >
-      <div className="absolute inset-0 bg-main-color/25 z-0" />
+      <div className="absolute inset-0 bg-main-color/35 z-0" />
 
       <div className="absolute z-10 top-[150px] md:top-[200px] px-5">
         <h1 className="text-heading-3 leading-heading-3 md:text-heading-2 md:leading-heading-2 lg:text-heading-1 lg:leading-heading-1 font-bold text-white">
