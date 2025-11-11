@@ -6,6 +6,7 @@ import useSigninAuth from "../services/signinAuth";
 import AuthHeader from "./AuthHeader";
 import { SignupSchema } from "../validation/SignupSchema";
 import MainImageAuth from "./atoms/MainImageAuth";
+import Spinner from "../../../shared/components/atoms/Spinner";
 
 const SignupForm = () => {
   const fields: {
@@ -73,7 +74,14 @@ const SignupForm = () => {
             />
           ))}
           <Button type="submit" className="w-full " variant="default">
-            {isPending ? "Loading..." : "Sign up"}
+            {isPending ? (
+              <>
+                <Spinner />
+                <span className="ml-1">Signing...</span>
+              </>
+            ) : (
+              "Sign up"
+            )}
           </Button>
         </form>
       </div>

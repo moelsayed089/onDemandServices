@@ -6,6 +6,7 @@ import AuthHeader from "./AuthHeader";
 import { LoginSchema } from "../validation/LoginSchema";
 import { Link } from "react-router-dom";
 import MainImageAuth from "./atoms/MainImageAuth";
+import Spinner from "../../../shared/components/atoms/Spinner";
 
 const LoginForm = () => {
   const { mutate, isPending } = useLoginAuth();
@@ -56,8 +57,19 @@ const LoginForm = () => {
           >
             Forgot Password
           </Link>
-          <Button type="submit" className="w-full " variant="default">
-            {isPending ? "Loading..." : "Login"}
+          <Button
+            type="submit"
+            className="w-full hover:cursor-pointer "
+            variant="default"
+          >
+            {isPending ? (
+              <>
+                <Spinner />
+                <span className="ml-1">Loading...</span>
+              </>
+            ) : (
+              "Login"
+            )}
           </Button>
         </form>
       </div>

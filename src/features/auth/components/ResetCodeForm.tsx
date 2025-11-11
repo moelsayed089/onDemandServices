@@ -5,6 +5,7 @@ import AuthHeader from "./AuthHeader";
 import useRestCode from "../services/ResetCodeApi";
 import { ResetCodeSchema } from "../validation/RestCodeSchema";
 import MainImageAuth from "./atoms/MainImageAuth";
+import Spinner from "../../../shared/components/atoms/Spinner";
 
 const ResetCodeForm = () => {
   const { mutate, isPending } = useRestCode();
@@ -39,7 +40,14 @@ const ResetCodeForm = () => {
           />
 
           <Button type="submit" className="w-full " variant="default">
-            {isPending ? "Loading..." : "Verify Code"}
+            {isPending ? (
+              <>
+                <Spinner />
+                <span className="ml-1">Verifying...</span>
+              </>
+            ) : (
+              "Verify Code"
+            )}
           </Button>
         </form>
       </div>

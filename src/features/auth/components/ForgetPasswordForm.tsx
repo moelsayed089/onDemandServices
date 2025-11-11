@@ -5,6 +5,7 @@ import AuthHeader from "./AuthHeader";
 import { ForgetPasswordSchema } from "../validation/ForgetPasswordSchema";
 import useForgetPassword from "../services/ForgetPasswordApi";
 import MainImageAuth from "./atoms/MainImageAuth";
+import Spinner from "../../../shared/components/atoms/Spinner";
 
 const ForgetPasswordForm = () => {
   const { mutate, isPending } = useForgetPassword();
@@ -36,7 +37,14 @@ const ForgetPasswordForm = () => {
           />
 
           <Button type="submit" className="w-full " variant="default">
-            {isPending ? "Loading..." : "Resend Email"}
+            {isPending ? (
+              <>
+                <Spinner />
+                <span className="ml-1">Resending...</span>
+              </>
+            ) : (
+              "Resend Email"
+            )}
           </Button>
         </form>
       </div>

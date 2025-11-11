@@ -5,6 +5,7 @@ import { Button } from "../../../shared/components/atoms/Button";
 import { ResendEmailSchema } from "../validation/ResendEmailSchema";
 import useConfirmEmail from "../services/confirmEmail";
 import MainImageAuth from "./atoms/MainImageAuth";
+import Spinner from "../../../shared/components/atoms/Spinner";
 
 const ResendEmailForm = () => {
   const { mutate, isPending } = useConfirmEmail();
@@ -36,7 +37,14 @@ const ResendEmailForm = () => {
           />
 
           <Button type="submit" className="w-full " variant="default">
-            {isPending ? "Loading..." : "Resend Email"}
+            {isPending ? (
+              <>
+                <Spinner />
+                <span className="ml-1">Sending...</span>
+              </>
+            ) : (
+              "Resend Email"
+            )}
           </Button>
         </form>
       </div>

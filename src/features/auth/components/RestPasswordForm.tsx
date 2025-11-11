@@ -5,6 +5,7 @@ import { Button } from "../../../shared/components/atoms/Button";
 import useRestPassword from "../services/RestPasswordApi";
 import { RestPasswordSchema } from "../validation/RestPasswordSchema";
 import MainImageAuth from "./atoms/MainImageAuth";
+import Spinner from "../../../shared/components/atoms/Spinner";
 
 const RestPasswordForm = () => {
   const fields: {
@@ -70,7 +71,14 @@ const RestPasswordForm = () => {
             />
           ))}
           <Button type="submit" className="w-full " variant="default">
-            {isPending ? "Loading..." : "Reset Password"}
+            {isPending ? (
+              <>
+                <Spinner />
+                <span className="ml-1">Updating...</span>
+              </>
+            ) : (
+              "Reset Password"
+            )}
           </Button>
         </form>
       </div>
