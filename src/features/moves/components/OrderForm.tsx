@@ -74,7 +74,7 @@ const OrderForm = () => {
           setPickupCoords(null);
           setDeliveryCoords(null);
           setTimeout(() => {
-            navigate("/trips");
+            navigate("/payment");
           }, 2000);
         },
         onError: () => {
@@ -109,197 +109,209 @@ const OrderForm = () => {
   };
 
   return (
-    <LoadScript
-      googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
-      libraries={libraries}
-    >
-      <form
-        onSubmit={formik.handleSubmit}
-        className="w-full p-6 bg-white rounded shadow space-y-4"
+    <>
+      <h1 className="text-body-xl text-main-color font-semibold ">
+        Create an order
+      </h1>
+      <p className="mb-2 text-body-md text-gray-500">
+        Please fill out the form below to complete your order
+      </p>
+
+      <LoadScript
+        googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
+        libraries={libraries}
       >
-        {/* Pickup Address */}
-        <div>
-          <Autocomplete
-            onLoad={(auto) => (pickupRef.current = auto)}
-            onPlaceChanged={() =>
-              handlePlaceChange(pickupRef, "pickup.address", setPickupCoords)
-            }
-            options={{ componentRestrictions: { country: "eg" } }}
-          >
-            <FormField
-              label="Pickup Address"
-              id="pickup.address"
-              name="pickup.address"
-              value={formik.values.pickup.address}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              placeholder="Enter pickup address"
-              error={
-                formik.touched.pickup?.address && formik.errors.pickup?.address
-                  ? formik.errors.pickup.address
-                  : undefined
-              }
-            />
-          </Autocomplete>
-        </div>
-
-        {/* Delivery Address */}
-        <div>
-          <Autocomplete
-            onLoad={(auto) => (deliveryRef.current = auto)}
-            onPlaceChanged={() =>
-              handlePlaceChange(
-                deliveryRef,
-                "delivery.address",
-                setDeliveryCoords
-              )
-            }
-            options={{ componentRestrictions: { country: "eg" } }}
-          >
-            <FormField
-              label="Delivery Address"
-              id="delivery.address"
-              name="delivery.address"
-              value={formik.values.delivery.address}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              placeholder="Enter delivery address"
-              error={
-                formik.touched.delivery?.address &&
-                formik.errors.delivery?.address
-                  ? formik.errors.delivery.address
-                  : undefined
-              }
-            />
-          </Autocomplete>
-        </div>
-
-        {/* Vehicle Type - Radio Buttons */}
-        <div className="space-y-2">
-          <label className="block font-medium mb-1">Vehicle Type</label>
-          <div className="flex gap-4">
-            {vehicleOptions.map((option) => (
-              <label key={option.value} className="flex items-center gap-2">
-                <input
-                  type="radio"
-                  name="vehicleType"
-                  value={option.value}
-                  checked={formik.values.vehicleType === option.value}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                />
-                {option.label}
-              </label>
-            ))}
-          </div>
-          {formik.touched.vehicleType && formik.errors.vehicleType && (
-            <p className="text-red-500 text-sm">{formik.errors.vehicleType}</p>
-          )}
-        </div>
-
-        {/* Item Name */}
-        <FormField
-          id="items[0].name"
-          label="Item Name"
-          placeholder="e.g. Sofa"
-          value={formik.values.items[0].name}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={
-            itemTouched?.[0]?.name && itemErrors?.[0]?.name
-              ? itemErrors[0].name
-              : undefined
-          }
-        />
-
-        {/* Quantity */}
-        <FormField
-          id="items[0].quantity"
-          label="Quantity"
-          type="number"
-          min={1}
-          value={formik.values.items[0].quantity}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          error={
-            itemTouched?.[0]?.quantity && itemErrors?.[0]?.quantity
-              ? itemErrors[0].quantity
-              : undefined
-          }
-        />
-
-        <EstimationBox
-          pickupCoords={pickupCoords}
-          deliveryCoords={deliveryCoords}
-          vehicleType={formik.values.vehicleType}
-        />
-
-        {/* Google Map */}
-        <div className="h-[300px] mt-4">
-          <GoogleMap
-            mapContainerStyle={{ width: "100%", height: "100%" }}
-            center={
-              pickupCoords
-                ? { lat: pickupCoords[1], lng: pickupCoords[0] }
-                : { lat: 26.8206, lng: 30.8025 } // مركز مصر
-            }
-            zoom={6}
-            options={{
-              restriction: {
-                latLngBounds: {
-                  north: 31.7,
-                  south: 21.7,
-                  west: 24.7,
-                  east: 36.9,
-                },
-                strictBounds: true,
-              },
-              streetViewControl: false,
-              mapTypeControl: false,
-            }}
-          >
-            {pickupCoords && (
-              <Marker
-                position={{ lat: pickupCoords[1], lng: pickupCoords[0] }}
-                draggable
-                onDragEnd={(e) => {
-                  const lat = e.latLng?.lat();
-                  const lng = e.latLng?.lng();
-                  if (lat && lng) setPickupCoords([lng, lat]);
-                }}
-              />
-            )}
-            {deliveryCoords && (
-              <Marker
-                position={{ lat: deliveryCoords[1], lng: deliveryCoords[0] }}
-                draggable
-                onDragEnd={(e) => {
-                  const lat = e.latLng?.lat();
-                  const lng = e.latLng?.lng();
-                  if (lat && lng) setDeliveryCoords([lng, lat]);
-                }}
-              />
-            )}
-          </GoogleMap>
-        </div>
-
-        {/* Submit Button */}
-        <Button
-          type="submit"
-          variant="default"
-          className="w-full text-white hover:cursor-pointer"
+        <form
+          onSubmit={formik.handleSubmit}
+          className="w-full p-6 bg-white rounded shadow space-y-4"
         >
-          {isPending ? (
-            <>
-              <Spinner />
-              <span className="ml-1">Creating...</span>
-            </>
-          ) : (
-            "Create Order"
-          )}
-        </Button>
-      </form>
-    </LoadScript>
+          {/* Pickup Address */}
+          <div>
+            <Autocomplete
+              onLoad={(auto) => (pickupRef.current = auto)}
+              onPlaceChanged={() =>
+                handlePlaceChange(pickupRef, "pickup.address", setPickupCoords)
+              }
+              options={{ componentRestrictions: { country: "eg" } }}
+            >
+              <FormField
+                label="Pickup Address"
+                id="pickup.address"
+                name="pickup.address"
+                value={formik.values.pickup.address}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                placeholder="Enter pickup address"
+                error={
+                  formik.touched.pickup?.address &&
+                  formik.errors.pickup?.address
+                    ? formik.errors.pickup.address
+                    : undefined
+                }
+              />
+            </Autocomplete>
+          </div>
+
+          {/* Delivery Address */}
+          <div>
+            <Autocomplete
+              onLoad={(auto) => (deliveryRef.current = auto)}
+              onPlaceChanged={() =>
+                handlePlaceChange(
+                  deliveryRef,
+                  "delivery.address",
+                  setDeliveryCoords
+                )
+              }
+              options={{ componentRestrictions: { country: "eg" } }}
+            >
+              <FormField
+                label="Delivery Address"
+                id="delivery.address"
+                name="delivery.address"
+                value={formik.values.delivery.address}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                placeholder="Enter delivery address"
+                error={
+                  formik.touched.delivery?.address &&
+                  formik.errors.delivery?.address
+                    ? formik.errors.delivery.address
+                    : undefined
+                }
+              />
+            </Autocomplete>
+          </div>
+
+          {/* Vehicle Type - Radio Buttons */}
+          <div className="space-y-2">
+            <label className="block font-medium mb-1">Vehicle Type</label>
+            <div className="flex gap-4">
+              {vehicleOptions.map((option) => (
+                <label key={option.value} className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    name="vehicleType"
+                    value={option.value}
+                    checked={formik.values.vehicleType === option.value}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                  />
+                  {option.label}
+                </label>
+              ))}
+            </div>
+            {formik.touched.vehicleType && formik.errors.vehicleType && (
+              <p className="text-red-500 text-sm">
+                {formik.errors.vehicleType}
+              </p>
+            )}
+          </div>
+
+          {/* Item Name */}
+          <FormField
+            id="items[0].name"
+            label="Item Name"
+            placeholder="e.g. Sofa"
+            value={formik.values.items[0].name}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={
+              itemTouched?.[0]?.name && itemErrors?.[0]?.name
+                ? itemErrors[0].name
+                : undefined
+            }
+          />
+
+          {/* Quantity */}
+          <FormField
+            id="items[0].quantity"
+            label="Quantity"
+            type="number"
+            min={1}
+            value={formik.values.items[0].quantity}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={
+              itemTouched?.[0]?.quantity && itemErrors?.[0]?.quantity
+                ? itemErrors[0].quantity
+                : undefined
+            }
+          />
+
+          <EstimationBox
+            pickupCoords={pickupCoords}
+            deliveryCoords={deliveryCoords}
+            vehicleType={formik.values.vehicleType}
+          />
+
+          {/* Google Map */}
+          <div className="h-[300px] mt-4">
+            <GoogleMap
+              mapContainerStyle={{ width: "100%", height: "100%" }}
+              center={
+                pickupCoords
+                  ? { lat: pickupCoords[1], lng: pickupCoords[0] }
+                  : { lat: 26.8206, lng: 30.8025 } // مركز مصر
+              }
+              zoom={6}
+              options={{
+                restriction: {
+                  latLngBounds: {
+                    north: 31.7,
+                    south: 21.7,
+                    west: 24.7,
+                    east: 36.9,
+                  },
+                  strictBounds: true,
+                },
+                streetViewControl: false,
+                mapTypeControl: false,
+              }}
+            >
+              {pickupCoords && (
+                <Marker
+                  position={{ lat: pickupCoords[1], lng: pickupCoords[0] }}
+                  draggable
+                  onDragEnd={(e) => {
+                    const lat = e.latLng?.lat();
+                    const lng = e.latLng?.lng();
+                    if (lat && lng) setPickupCoords([lng, lat]);
+                  }}
+                />
+              )}
+              {deliveryCoords && (
+                <Marker
+                  position={{ lat: deliveryCoords[1], lng: deliveryCoords[0] }}
+                  draggable
+                  onDragEnd={(e) => {
+                    const lat = e.latLng?.lat();
+                    const lng = e.latLng?.lng();
+                    if (lat && lng) setDeliveryCoords([lng, lat]);
+                  }}
+                />
+              )}
+            </GoogleMap>
+          </div>
+
+          {/* Submit Button */}
+          <Button
+            type="submit"
+            variant="default"
+            className=" text-white hover:cursor-pointer"
+          >
+            {isPending ? (
+              <>
+                <Spinner />
+                <span className="ml-1">Creating...</span>
+              </>
+            ) : (
+              "Create Order"
+            )}
+          </Button>
+        </form>
+      </LoadScript>
+    </>
   );
 };
 

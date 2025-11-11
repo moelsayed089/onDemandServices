@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import { lazy } from "react";
 import HomePageDriver from "../features/driver/HomePageDriver";
 import RedirectByRole from "./RedirectByRole";
+import PaymentPage from "../features/moves/pages/PaymentPage";
 // import RedirectByRole from "./RedirectByRole";
 // import Start from "../pages/Start";
 // const StartPage = lazy(() => import("../features/moves/pages/StartPage"));
@@ -99,7 +100,7 @@ const router = createBrowserRouter([
 
       { path: "/start", element: <Insurance /> },
       { path: "/order", element: <CreateOrder /> },
-      { path: "/payment", element: <div>Payment</div> },
+      { path: "/payment", element: <PaymentPage /> },
       { path: "*", element: <ErrorHandler /> },
     ],
   },
