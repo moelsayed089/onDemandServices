@@ -15,6 +15,7 @@ import { Button } from "../../../shared/components/atoms/Button";
 import EstimationBox from "./EtmitionPriceForm";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
+import Spinner from "../../../shared/components/atoms/Spinner";
 
 const vehicleOptions = [
   { label: "Car", value: "car" },
@@ -123,6 +124,7 @@ const OrderForm = () => {
             onPlaceChanged={() =>
               handlePlaceChange(pickupRef, "pickup.address", setPickupCoords)
             }
+            options={{ componentRestrictions: { country: "eg" } }}
           >
             <FormField
               label="Pickup Address"
@@ -152,6 +154,7 @@ const OrderForm = () => {
                 setDeliveryCoords
               )
             }
+            options={{ componentRestrictions: { country: "eg" } }}
           >
             <FormField
               label="Delivery Address"
@@ -238,9 +241,22 @@ const OrderForm = () => {
             center={
               pickupCoords
                 ? { lat: pickupCoords[1], lng: pickupCoords[0] }
-                : { lat: 30.0444, lng: 31.2357 }
+                : { lat: 26.8206, lng: 30.8025 } // مركز مصر
             }
-            zoom={7}
+            zoom={6}
+            options={{
+              restriction: {
+                latLngBounds: {
+                  north: 31.7,
+                  south: 21.7,
+                  west: 24.7,
+                  east: 36.9,
+                },
+                strictBounds: true,
+              },
+              streetViewControl: false,
+              mapTypeControl: false,
+            }}
           >
             {pickupCoords && (
               <Marker
@@ -273,7 +289,14 @@ const OrderForm = () => {
           variant="default"
           className="w-full text-white hover:cursor-pointer"
         >
-          {isPending ? "Loading..." : "Submit"}
+          {isPending ? (
+            <>
+              <Spinner />
+              <span className="ml-1">Creating...</span>
+            </>
+          ) : (
+            "Create Order"
+          )}
         </Button>
       </form>
     </LoadScript>
