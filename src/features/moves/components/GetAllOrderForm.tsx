@@ -18,7 +18,7 @@ const GetAllOrderForm = () => {
 
   if (isLoading)
     return (
-      <div className="container mt-5 mb-12">
+      <div className="container ">
         <h1 className="text-3xl text-main-color font-semibold mb-7">
           Order History
         </h1>
@@ -36,7 +36,7 @@ const GetAllOrderForm = () => {
         <h1 className="text-3xl text-main-color font-semibold  mb-7">
           Order History
         </h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {data?.data.map((order: Order) => (
             <OrderCard
               _id={order._id}

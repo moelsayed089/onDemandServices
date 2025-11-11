@@ -78,8 +78,11 @@ const OrderDetailsForm = () => {
               </div>
 
               <div>
-                <h3 className="font-semibold text-gray-700">
-                  Items: <span>{data?.data.items[0].name}</span>
+                <h3 className="font-medium text-gray-700">
+                  Items:{" "}
+                  <span className="text-main-color">
+                    {data?.data.items[0].name}
+                  </span>
                 </h3>
                 <h3 className="font-semibold text-gray-700">
                   Quantity: <span>{data?.data.items[0].quantity}</span>
@@ -92,10 +95,10 @@ const OrderDetailsForm = () => {
                   {data?.data.pricing.basePrice} EGP
                 </p>
                 <p className="text-sm text-pragraph-color">
-                  Distance: {data?.data.pricing.distancePrice} EGP
+                  Distance: {data?.data.pricing.distancePrice.toFixed(2)} EGP
                 </p>
                 <p className="text-sm font-medium text-main-color">
-                  Total: {data?.data.pricing.totalPrice} EGP
+                  Total: {data?.data.pricing.totalPrice.toFixed(2)} EGP
                 </p>
               </div>
 
