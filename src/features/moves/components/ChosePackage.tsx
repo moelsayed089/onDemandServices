@@ -5,7 +5,7 @@ import { packages } from "../../../shared/data/InsuranceData";
 const ChosePackage = () => {
   return (
     <div className="mt-5  ">
-      <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md w-full max-w-full border border-gray-200 text-center">
+      <div className="bg-white p-4 sm:p-6 rounded-lg w-full max-w-full border border-gray-200/80 text-center">
         <div className="bg-secondary-color mb-4 w-12 h-12 sm:w-12 sm:h-12 mx-auto rounded-full flex items-center justify-center">
           <NotepadText size={25} />
         </div>
@@ -30,6 +30,7 @@ const ChosePackage = () => {
             compensationDamaged={pkg.compensationDamaged}
             buttonText={pkg.buttonText}
             variant={pkg.variant}
+            pathLink={pkg.pathLink}
           />
         ))}
       </div>

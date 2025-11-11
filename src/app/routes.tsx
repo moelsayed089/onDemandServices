@@ -4,8 +4,8 @@ import HomePageDriver from "../features/driver/HomePageDriver";
 import RedirectByRole from "./RedirectByRole";
 // import RedirectByRole from "./RedirectByRole";
 // import Start from "../pages/Start";
-const StartPage = lazy(() => import("../features/moves/pages/StartPage"));
-const StartLayout = lazy(() => import("./Layout/StartLayout"));
+// const StartPage = lazy(() => import("../features/moves/pages/StartPage"));
+// const StartLayout = lazy(() => import("./Layout/StartLayout"));
 const Insurance = lazy(() => import("../features/moves/pages/Insurance"));
 const CreateOrder = lazy(() => import("../features/moves/pages/CreateOrder"));
 const GetAllOrderPage = lazy(
@@ -96,33 +96,37 @@ const router = createBrowserRouter([
           },
         ],
       },
+
+      { path: "/start", element: <Insurance /> },
+      { path: "/order", element: <CreateOrder /> },
+      { path: "/payment", element: <div>Payment</div> },
       { path: "*", element: <ErrorHandler /> },
     ],
   },
 
   //StartLayout
-  {
-    path: "/start",
-    element: <StartLayout />,
-    children: [
-      {
-        path: "",
-        element: <StartPage />,
-      },
-      {
-        path: "insurance",
-        element: <Insurance />,
-      },
-      {
-        path: "order",
-        element: <CreateOrder />,
-      },
-      {
-        path: "payment",
-        element: <div>Payment</div>,
-      },
-    ],
-  },
+  // {
+  //   path: "/start",
+  //   element: <StartLayout />,
+  //   children: [
+  //     {
+  //       path: "",
+  //       element: <StartPage />,
+  //     },
+  //     {
+  //       path: "insurance",
+  //       element: <Insurance />,
+  //     },
+  //     {
+  //       path: "order",
+  //       element: <CreateOrder />,
+  //     },
+  //     {
+  //       path: "payment",
+  //       element: <div>Payment</div>,
+  //     },
+  //   ],
+  // },
 
   // Auth Layout
   {
