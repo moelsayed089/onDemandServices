@@ -26,7 +26,7 @@ export const ConfirmEmailForm = () => {
   return (
     <>
       <div className="flex items-center justify-center min-h-screen px-4">
-        <div className="bg-gray-200 w-full max-w-xl p-6 md:p-10 flex flex-col gap-6 items-center justify-center rounded-md">
+        <div className="bg-gray-100/50 border border-gray-200  max-w-3xl p-6 md:p-10 flex flex-col gap-6 items-center justify-center rounded-md">
           <h1 className="text-2xl md:text-3xl text-gray-800 font-medium text-center">
             Confirm Email
           </h1>
