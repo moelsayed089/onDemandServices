@@ -5,6 +5,10 @@ import { Dialog } from "../../../shared/components/molecules/Dialog";
 import { useFormik } from "formik";
 import { EditPasswordSchema } from "../validation/EditPasswordProfile";
 import FormField from "../../../shared/components/molecules/FormField";
+import Spinner from "../../../shared/components/atoms/Spinner";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   defaultpassword: string;
@@ -34,6 +38,8 @@ const EditPasswordProfileDialog = ({
     },
   ];
   const { mutate, isPending } = useUpdatePasswordProfile();
+  const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
   const formObject = useFormik({
     initialValues: {
       currentPassword: defaultpassword || "",
@@ -42,13 +48,24 @@ const EditPasswordProfileDialog = ({
     },
     validationSchema: EditPasswordSchema,
     onSubmit: (values) => {
-      mutate(values);
+      mutate(values, {
+        onSuccess: () => {
+          toast.success("Password updated successfully", {
+            position: "bottom-right",
+          });
+          setIsOpen(false);
+          setTimeout(() => navigate("/login"), 2000);
+        },
+        onError: () => {
+          toast.error("Error updating password", { position: "bottom-right" });
+        },
+      });
     },
   });
 
   return (
     <>
-      <Dialog>
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <Dialog.Trigger asChild>
           <div className="w-fit">
             <Button
@@ -100,14 +117,6 @@ const EditPasswordProfileDialog = ({
                 ))}
 
                 <div className="flex justify-end gap-2">
-                  <Button
-                    className="hover:cursor-pointer"
-                    onClick={formObject.submitForm}
-                    disabled={isPending}
-                  >
-                    {isPending ? "Saving..." : "Save"}
-                  </Button>
-
                   <Dialog.Close asChild>
                     <Button
                       variant="destructive"
@@ -116,6 +125,20 @@ const EditPasswordProfileDialog = ({
                       Cancel
                     </Button>
                   </Dialog.Close>
+
+                  <Button
+                    className="hover:cursor-pointer px-5"
+                    onClick={formObject.submitForm}
+                  >
+                    {isPending ? (
+                      <>
+                        <Spinner />
+                        <span className="ml-1">Saving...</span>
+                      </>
+                    ) : (
+                      "Save"
+                    )}
+                  </Button>
                 </div>
               </div>
             </form>

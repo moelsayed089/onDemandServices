@@ -4,6 +4,7 @@ import { Input } from "../../../shared/components/ui/input";
 import useUpdateUserData from "../services/UpdataUserDate";
 import Icon from "../../../shared/components/atoms/Icon";
 import { Dialog } from "../../../shared/components/molecules/Dialog";
+import Spinner from "../../../shared/components/atoms/Spinner";
 
 interface Props {
   defaultName: string;
@@ -20,14 +21,21 @@ const EditProfileDialog = ({
   const [email, setEmail] = useState(defaultEmail);
   const [phone, setPhone] = useState(defaultPhone);
 
+  const [isOpen, setIsOpen] = useState(false);
   const { mutate, isPending } = useUpdateUserData();
 
   const handleSave = () => {
-    mutate({ name, email, phone });
+    mutate(
+      { name, email, phone },
+      {
+        onSuccess: () => {
+          setIsOpen(false);
+        },
+      }
+    );
   };
-
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <Dialog.Trigger asChild>
         <Button
           variant="secondary"
@@ -64,19 +72,22 @@ const EditProfileDialog = ({
         </div>
 
         <Dialog.Footer>
-          <Button
-            className="hover:cursor-pointer"
-            onClick={handleSave}
-            disabled={isPending}
-          >
-            {isPending ? "Saving..." : "Save"}
-          </Button>
-
           <Dialog.Close asChild>
             <Button variant="destructive" className="hover:cursor-pointer">
               Cancel
             </Button>
           </Dialog.Close>
+
+          <Button className="hover:cursor-pointer px-5" onClick={handleSave}>
+            {isPending ? (
+              <>
+                <Spinner />
+                <span className="ml-1">Saving...</span>
+              </>
+            ) : (
+              "Save"
+            )}
+          </Button>
         </Dialog.Footer>
       </Dialog.Content>
     </Dialog>

@@ -17,12 +17,8 @@ const Test = () => {
       const { accessToken, accessTokenExpires } = response.data;
 
       console.log("Token refreshed:", response.data);
-
-      // ✅ تحديث localStorage
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("accessTokenExpires", accessTokenExpires);
-
-      // ✅ تحديث Redux store
       dispatch(updateToken({ accessToken, accessTokenExpires }));
     } catch (error) {
       console.error("Error refreshing token:", error);
