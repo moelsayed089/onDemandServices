@@ -1,4 +1,4 @@
-import { usePostMutation } from "../../../app/api/usePostMutation";
+import { usePutMutation } from "../../../app/api/usePutMutation";
 
 interface UpdateDriverLocationRequest {
   coordinates: [number, number];
@@ -10,7 +10,7 @@ interface UpdateDriverLocationResponse {
 }
 
 export const useUpdateDriverLocation = () =>
-  usePostMutation<UpdateDriverLocationResponse, UpdateDriverLocationRequest>(
+  usePutMutation<UpdateDriverLocationResponse, UpdateDriverLocationRequest>(
     "/api/v1/drivers/location",
     {
       onSuccess: (data) => {
