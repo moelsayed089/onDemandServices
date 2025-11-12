@@ -1,5 +1,11 @@
+import DriverTracker from "./components/DriverTracker";
+
 const HomePageDriver = () => {
-  return <div>HomePageDriver</div>;
+  return (
+    <>
+      <DriverTracker />
+    </>
+  );
 };
 
 export default HomePageDriver;
