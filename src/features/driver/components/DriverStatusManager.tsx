@@ -66,7 +66,7 @@ const DriverStatusManager = () => {
 
         setLocationError(errorMessage);
 
-        toast.warning(errorMessage, {
+        toast.error(errorMessage, {
           position: "bottom-right",
           duration: 4000,
         });
