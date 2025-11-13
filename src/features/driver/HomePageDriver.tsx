@@ -1,10 +1,12 @@
+import DriverNewMoveRequest from "./components/DriverNewMoveRequest";
 import DriverStatusManager from "./components/DriverStatusManager";
 
 const HomePageDriver = () => {
   return (
     <>
-      {/* <DriverTracker /> */}
       <DriverStatusManager />
+
+      <DriverNewMoveRequest />
     </>
   );
 };

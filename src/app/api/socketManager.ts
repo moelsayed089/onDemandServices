@@ -4,6 +4,10 @@ import { io, Socket } from "socket.io-client";
 import type { AppDispatch } from "../store";
 import { addMessage, removeMessage } from "../slice/messageSlice";
 import { v4 as uuidv4 } from "uuid";
+import {
+  setNewMove,
+  type DriverMove,
+} from "../../features/driver/driverMoveSlice";
 
 // Types from WebSocket Documentation
 interface AuthSuccessPayload {
@@ -53,19 +57,57 @@ interface NoDriversAvailablePayload {
 }
 
 interface DriverNewMoveRequestPayload {
-  moveId: string;
-  pickup: {
-    address: string;
-    coordinates: [number, number];
+  move: {
+    _id: string;
+    customer: string;
+    status: string;
+    pickup: {
+      address: string;
+      coordinates: {
+        type: string;
+        coordinates: [number, number];
+      };
+    };
+    delivery: {
+      address: string;
+      coordinates: {
+        type: string;
+        coordinates: [number, number];
+      };
+    };
+    items: { name: string; quantity: number }[];
+    vehicleType: string;
+    scheduledFor: string | null;
+    insurance: {
+      isSelected: boolean;
+      type: string;
+    };
+    pricing: {
+      basePrice: number;
+      distancePrice: number;
+      totalPrice: number;
+    };
+    payment: {
+      status: string;
+    };
+    createdAt: string;
   };
-  delivery: {
+  pickupLocation: {
     address: string;
-    coordinates: [number, number];
+    coordinates: {
+      type: string;
+      coordinates: [number, number];
+    };
   };
-  totalPrice: number;
-  distance: number;
+  deliveryLocation: {
+    address: string;
+    coordinates: {
+      type: string;
+      coordinates: [number, number];
+    };
+  };
   vehicleType: string;
-  timeout: number;
+  price: number;
 }
 
 interface DriverLocationUpdatedPayload {
@@ -319,17 +361,18 @@ class SocketManager {
     this.socket.on(
       "driver:new_move_request",
       (data: DriverNewMoveRequestPayload) => {
-        console.log("🆕 New move request received:", data.moveId);
+        console.log("🆕 New move request received:", data);
+
+        this.dispatch?.(setNewMove(data as DriverMove));
         this.dispatch?.(
           addMessage({
-            id: data.moveId,
-            text: `New move: ${data.pickup.address} → ${data.delivery.address}`,
+            id: data.move._id,
+            text: `New move: ${data.move.pickup.address} → ${data.move.delivery.address}`,
           })
         );
 
         // Show notification modal with Accept/Reject buttons
         // Start countdown timer based on data.timeout
-        console.log("⏰ Timeout for response:", data.timeout / 1000, "seconds");
       }
     );
 

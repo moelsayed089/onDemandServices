@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { usePutMutation } from "../../../app/api/usePutMutation";
+import toast from "react-hot-toast";
 
 const DriverStatusManager = () => {
   const { mutate: updateAvailability } = usePutMutation(
@@ -26,10 +27,10 @@ const DriverStatusManager = () => {
           { isAvailable: true, coordinates: coords },
           {
             onSuccess: () => {
-              console.log("✅ Driver is now online:", coords);
+              toast.success("Driver is now online", {
+                position: "bottom-right",
+              });
               setIsOnline(true);
-
-              // 🔁 ابدأ تتبع الموقع كل فترة
               watchIdRef.current = navigator.geolocation.watchPosition(
                 (position) => {
                   const newCoords: [number, number] = [
@@ -62,7 +63,7 @@ const DriverStatusManager = () => {
       { isAvailable: false },
       {
         onSuccess: () => {
-          console.log("🛑 Driver is now offline");
+          toast.success("Driver is now offline", { position: "bottom-right" });
           setIsOnline(false);
           setCurrentCoords(null);
         },
@@ -80,7 +81,7 @@ const DriverStatusManager = () => {
 
   return (
     <div className="flex flex-col items-center gap-6 p-6 bg-white shadow-lg rounded-2xl w-[400px] mx-auto mt-10">
-      <h2 className="text-2xl font-semibold">🚗 Driver Dashboard</h2>
+      <h2 className="text-2xl font-medium">Driver Dashboard</h2>
 
       <div className="flex items-center gap-3">
         <span
@@ -94,7 +95,7 @@ const DriverStatusManager = () => {
       </div>
 
       {currentCoords && (
-        <div className="text-sm text-gray-600">
+        <div className="text-sm text-gray-600 flex items-center justify-between gap-2">
           📍 Lat: {currentCoords[0].toFixed(6)} <br />
           📍 Lng: {currentCoords[1].toFixed(6)}
         </div>
@@ -110,7 +111,7 @@ const DriverStatusManager = () => {
               : "bg-green-500 text-white hover:bg-green-600"
           }`}
         >
-          Go Online 🚀
+          Go Online
         </button>
 
         <button
@@ -122,7 +123,7 @@ const DriverStatusManager = () => {
               : "bg-red-500 text-white hover:bg-red-600"
           }`}
         >
-          Go Offline 💤
+          Go Offline
         </button>
       </div>
     </div>

@@ -3,6 +3,7 @@ import { lazy } from "react";
 import HomePageDriver from "../features/driver/HomePageDriver";
 import RedirectByRole from "./RedirectByRole";
 import PaymentPage from "../features/moves/pages/PaymentPage";
+import { GetAllOrdersInDriver } from "../features/driver/components/GetAllOrderInDeriver";
 // import RedirectByRole from "./RedirectByRole";
 // import Start from "../pages/Start";
 // const StartPage = lazy(() => import("../features/moves/pages/StartPage"));
@@ -176,6 +177,7 @@ const router = createBrowserRouter([
         children: [
           { path: "", element: <HomePageDriver /> },
           { path: "dashboard", element: <div>Driver Dashboard</div> },
+          { path: "allTrips", element: <GetAllOrdersInDriver /> },
         ],
       },
     ],
