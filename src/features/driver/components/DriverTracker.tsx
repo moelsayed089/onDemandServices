@@ -29,7 +29,7 @@ const DriverTracker = () => {
       } else {
         console.warn("⚠️ Geolocation not supported in this browser");
       }
-    }, 5000);
+    }, 25000);
 
     return () => clearInterval(interval);
   }, [updateLocation]);
