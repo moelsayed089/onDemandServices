@@ -9,8 +9,9 @@ import { queryClient } from "../../../app/api/queryClient";
 
 export const useCreateOrder = () =>
   usePostMutation<CreateOrderResponse, CreateOrderRequest>("/api/v1/moves", {
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["getUserOrders"] });
+      console.log("✅ Order created successfully:", data);
     },
   });
 export const useEstimateOrder = () =>

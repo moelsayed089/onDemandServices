@@ -234,7 +234,7 @@ class SocketManager {
       }
     );
 
-    this.socket.on("move:driver_assigned", (data: DriverAssignedPayload) => {
+    this.socket.on("move:accepted", (data: DriverAssignedPayload) => {
       console.log("🚗 Driver assigned:", data.driver.name);
       this.dispatch?.(
         addMessage({
@@ -249,7 +249,7 @@ class SocketManager {
       }, 60_000);
     });
 
-    this.socket.on("move:status_updated", (data: MoveStatusUpdatedPayload) => {
+    this.socket.on("move:status_update", (data: MoveStatusUpdatedPayload) => {
       console.log("📊 Move status updated:", data.status);
       this.dispatch?.(
         addMessage({
@@ -304,9 +304,9 @@ class SocketManager {
       }
     );
 
-    // this.socket.onAny((event, ...args) => {
-    //   console.log("📨 [socket onAny] event:", event, "args:", args);
-    // });
+    this.socket.onAny((event, ...args) => {
+      console.log("📨 [socket onAny] event:", event, "args:", args);
+    });
   }
 
   /**
@@ -359,6 +359,10 @@ class SocketManager {
       setTimeout(() => {
         this.dispatch?.(removeMessage(data.moveId));
       }, 60_000);
+    });
+
+    this.socket.onAny((event, ...args) => {
+      console.log("📨 [socket onAny] event:", event, "args:", args);
     });
   }
 

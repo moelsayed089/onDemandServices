@@ -83,6 +83,7 @@ const OrderForm = () => {
           });
         },
       });
+      console.log("Form values:", values);
     },
   });
 
