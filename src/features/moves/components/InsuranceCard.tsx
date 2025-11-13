@@ -30,7 +30,7 @@ const InsuranceCard: React.FC<InsuranceCardProps> = ({
       className="
         bg-white p-4 sm:p-5 rounded-lg w-full max-w-full 
         border border-gray-200/90 flex flex-col justify-between 
-        gap-4 h-[360px] sm:h-[390px] mb-3
+        gap-4 md:h-[400px] mb-3
       "
     >
       <div>
