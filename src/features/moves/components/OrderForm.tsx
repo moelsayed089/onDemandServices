@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import {
   GoogleMap,
   LoadScript,
@@ -17,8 +16,6 @@ import EstimationBox from "./EtmitionPriceForm";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import Spinner from "../../../shared/components/atoms/Spinner";
-import { useSelector } from "react-redux";
-import type { RootState } from "../../../app/store";
 
 const vehicleOptions = [
   { label: "Car", value: "car" },
@@ -42,36 +39,21 @@ const OrderForm = () => {
   const queryClient = useQueryClient();
   const { mutate: createOrder, isPending } = useCreateOrder();
 
-  // ✅ Check if user is logged in
-  const accessToken = useSelector(
-    (state: RootState) => state.loginAuth.accessToken
-  );
-
-  useEffect(() => {
-    if (!accessToken) {
-      toast.error("Please login to create an order", {
-        position: "bottom-right",
-      });
-      navigate("/login");
-    }
-  }, [accessToken, navigate]);
-
   const formik = useFormik({
     initialValues: {
       pickup: {
         address: "",
-        coordinates: { type: "Point" as const, coordinates: [0, 0] },
+        coordinates: { type: "Point", coordinates: [0, 0] },
       },
       delivery: {
         address: "",
-        coordinates: { type: "Point" as const, coordinates: [0, 0] },
+        coordinates: { type: "Point", coordinates: [0, 0] },
       },
       vehicleType: "",
       items: [{ name: "", quantity: 1 }],
     },
     validationSchema: orderSchema,
     onSubmit: (values) => {
-      // ✅ Validate coordinates
       if (!pickupCoords || !deliveryCoords) {
         toast.error("Please select valid pickup and delivery addresses", {
           position: "bottom-right",
@@ -79,53 +61,33 @@ const OrderForm = () => {
         return;
       }
 
-      // ✅ Update coordinates
       values.pickup.coordinates.coordinates = pickupCoords;
       values.delivery.coordinates.coordinates = deliveryCoords;
 
-      console.log("📦 Creating order with data:", values);
-
-      // ✅ Create order
       createOrder(values as CreateOrderRequest, {
-        onSuccess: (response) => {
-          console.log("✅ Order created successfully:", response);
-
+        onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: ["getUserOrders"] });
-
-          toast.success(
-            "Order created successfully! Searching for drivers...",
-            {
-              position: "bottom-right",
-              duration: 5000,
-            }
-          );
-
-          // ✅ Reset form
+          toast.success("Order created successfully", {
+            position: "bottom-right",
+          });
           formik.resetForm();
           setPickupCoords(null);
           setDeliveryCoords(null);
-
-          // ✅ Navigate to trips page
           setTimeout(() => {
-            navigate("/trips");
+            navigate("/payment");
           }, 2000);
         },
-        onError: (error: any) => {
-          console.error("❌ Failed to create order:", error);
-
-          const errorMessage =
-            error?.response?.data?.message ||
-            error?.message ||
-            "Failed to create order";
-
-          toast.error(errorMessage, {
+        onError: () => {
+          toast.error("Failed to create order", {
             position: "bottom-right",
-            duration: 5000,
           });
         },
       });
+      console.log("Form values:", values);
     },
   });
+
+  // Estimate price automatically when data is available
 
   const itemErrors = formik.errors.items as
     | FormikErrors<{ name: string; quantity: number }>[]
@@ -142,18 +104,14 @@ const OrderForm = () => {
     const place = ref.current?.getPlace();
     if (place?.formatted_address && place.geometry?.location) {
       const loc = place.geometry.location;
-      const coords: [number, number] = [loc.lng(), loc.lat()];
-
       formik.setFieldValue(path, place.formatted_address);
-      setCoords(coords);
-
-      console.log(`✅ ${path} set to:`, place.formatted_address, coords);
+      setCoords([loc.lng(), loc.lat()]);
     }
   };
 
   return (
     <>
-      <h1 className="text-body-xl text-main-color font-semibold">
+      <h1 className="text-body-xl text-main-color font-semibold ">
         Create an order
       </h1>
       <p className="mb-2 text-body-md text-gray-500">
@@ -231,10 +189,7 @@ const OrderForm = () => {
             <label className="block font-medium mb-1">Vehicle Type</label>
             <div className="flex gap-4">
               {vehicleOptions.map((option) => (
-                <label
-                  key={option.value}
-                  className="flex items-center gap-2 cursor-pointer"
-                >
+                <label key={option.value} className="flex items-center gap-2">
                   <input
                     type="radio"
                     name="vehicleType"
@@ -242,9 +197,8 @@ const OrderForm = () => {
                     checked={formik.values.vehicleType === option.value}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    className="cursor-pointer"
                   />
-                  <span className="text-sm">{option.label}</span>
+                  {option.label}
                 </label>
               ))}
             </div>
@@ -286,7 +240,6 @@ const OrderForm = () => {
             }
           />
 
-          {/* Estimation Box */}
           <EstimationBox
             pickupCoords={pickupCoords}
             deliveryCoords={deliveryCoords}
@@ -294,7 +247,7 @@ const OrderForm = () => {
           />
 
           {/* Google Map */}
-          <div className="h-[400px] mt-4 rounded-lg overflow-hidden">
+          <div className="h-[300px] mt-4">
             <GoogleMap
               mapContainerStyle={{ width: "100%", height: "100%" }}
               center={
@@ -302,7 +255,7 @@ const OrderForm = () => {
                   ? { lat: pickupCoords[1], lng: pickupCoords[0] }
                   : { lat: 26.8206, lng: 30.8025 }
               }
-              zoom={pickupCoords || deliveryCoords ? 12 : 6}
+              zoom={6}
               options={{
                 restriction: {
                   latLngBounds: {
@@ -320,30 +273,22 @@ const OrderForm = () => {
               {pickupCoords && (
                 <Marker
                   position={{ lat: pickupCoords[1], lng: pickupCoords[0] }}
-                  label="A"
                   draggable
                   onDragEnd={(e) => {
                     const lat = e.latLng?.lat();
                     const lng = e.latLng?.lng();
-                    if (lat && lng) {
-                      setPickupCoords([lng, lat]);
-                      console.log("📍 Pickup moved to:", [lng, lat]);
-                    }
+                    if (lat && lng) setPickupCoords([lat, lng]);
                   }}
                 />
               )}
               {deliveryCoords && (
                 <Marker
                   position={{ lat: deliveryCoords[1], lng: deliveryCoords[0] }}
-                  label="B"
                   draggable
                   onDragEnd={(e) => {
                     const lat = e.latLng?.lat();
                     const lng = e.latLng?.lng();
-                    if (lat && lng) {
-                      setDeliveryCoords([lng, lat]);
-                      console.log("📍 Delivery moved to:", [lng, lat]);
-                    }
+                    if (lat && lng) setDeliveryCoords([lat, lng]);
                   }}
                 />
               )}
@@ -354,16 +299,15 @@ const OrderForm = () => {
           <Button
             type="submit"
             variant="default"
-            disabled={isPending}
-            className="w-full text-white hover:cursor-pointer"
+            className=" text-white hover:cursor-pointer"
           >
             {isPending ? (
               <>
                 <Spinner />
-                <span className="ml-1">Creating Order...</span>
+                <span className="ml-1">Creating...</span>
               </>
             ) : (
-              "Create Order & Search for Drivers 🚗"
+              "Create Order"
             )}
           </Button>
         </form>

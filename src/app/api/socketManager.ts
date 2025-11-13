@@ -3,7 +3,7 @@
 import { io, Socket } from "socket.io-client";
 import type { AppDispatch } from "../store";
 import { addMessage, removeMessage } from "../slice/messageSlice";
-import toast from "react-hot-toast";
+import { v4 as uuidv4 } from "uuid";
 
 // Types from WebSocket Documentation
 interface AuthSuccessPayload {
@@ -85,26 +85,21 @@ class SocketManager {
   private isAuthenticating = false;
   private reconnectAttempts = 0;
   private maxReconnectAttempts = 5;
-  private userRole: "customer" | "driver" | null = null;
 
   /**
    * Initialize socket connection following WebSocket API documentation
+   * Step 1: Setup listeners FIRST (critical requirement from docs)
+   * Step 2: Connect to socket
+   * Step 3: Authenticate
    */
   initialize(
     token: string,
     dispatch: AppDispatch,
     userRole: "customer" | "driver"
   ) {
-    // ✅ Check if already connected
-    if (this.socket?.connected && this.userRole === userRole) {
-      console.log("✅ Socket already connected for role:", userRole);
+    if (this.socket?.connected) {
+      console.log("✅ Socket already connected");
       return;
-    }
-
-    // ✅ Disconnect old socket if exists
-    if (this.socket) {
-      console.log("🔄 Disconnecting old socket...");
-      this.disconnect();
     }
 
     if (this.isAuthenticating) {
@@ -113,53 +108,56 @@ class SocketManager {
     }
 
     this.dispatch = dispatch;
-    this.userRole = userRole;
     this.isAuthenticating = true;
 
     console.log("🔌 Initializing socket for role:", userRole);
 
-    // ✅ Create socket instance
+    // Create socket instance (but don't connect yet)
     this.socket = io(import.meta.env.VITE_BASE_URL || "", {
-      autoConnect: false,
-      transports: ["websocket", "polling"], // ✅ Add polling as fallback
+      autoConnect: false, // Critical: Don't auto-connect
+      transports: ["websocket"],
       reconnection: true,
       reconnectionDelay: 1000,
       reconnectionDelayMax: 5000,
       reconnectionAttempts: this.maxReconnectAttempts,
-      timeout: 20000, // ✅ Increase timeout
     });
 
-    // ✅ Setup all listeners BEFORE connecting
+    // Step 1: Setup authentication listeners BEFORE connecting (as per docs)
     this.setupAuthListeners();
+
+    // Step 2: Setup connection event handlers
     this.setupConnectionHandlers(token);
 
+    // Step 3: Setup role-specific event listeners
     if (userRole === "customer") {
       this.setupCustomerListeners();
     } else if (userRole === "driver") {
       this.setupDriverListeners();
     }
 
-    // ✅ Now connect
+    // Step 4: Now connect (after all listeners are ready)
     console.log("🔌 Connecting to socket...");
     this.socket.connect();
 
-    // ✅ Set authentication timeout
+    // Step 5: Set authentication timeout (10 seconds as per docs)
     this.authenticationTimeout = setTimeout(() => {
       if (this.isAuthenticating) {
-        console.error("❌ Authentication timeout (20 seconds exceeded)");
+        console.error("❌ Authentication timeout (10 seconds exceeded)");
         this.handleAuthenticationFailure("Authentication timeout");
       }
-    }, 20000);
+    }, 10000);
   }
 
   /**
-   * Setup authentication listeners
+   * Setup authentication listeners (BEFORE connection as per docs)
    */
   private setupAuthListeners() {
     if (!this.socket) return;
 
+    // Success handler
     this.socket.on("authentication_success", (data: AuthSuccessPayload) => {
       console.log("✅ Authentication successful:", data);
+
       this.isAuthenticating = false;
 
       if (this.authenticationTimeout) {
@@ -167,12 +165,17 @@ class SocketManager {
         this.authenticationTimeout = null;
       }
 
-      toast.success(`Connected as ${data.role}`, {
-        position: "bottom-right",
-        duration: 2000,
-      });
+      console.log(`✅ Authenticated as ${data.role}: ${data.userId}`);
+
+      // this.dispatch?.(
+      //   addMessage({
+      //     id: uuidv4(),
+      //     text: `Connected as ${data.role}`,
+      //   })
+      // );
     });
 
+    // Failure handler (server will disconnect after this)
     this.socket.on("authentication_failed", (data: AuthFailedPayload) => {
       console.error("❌ Authentication failed:", data.error);
       this.handleAuthenticationFailure(data.error);
@@ -189,19 +192,14 @@ class SocketManager {
       console.log("✅ Socket connected, ID:", this.socket?.id);
       console.log("🔐 Attempting authentication...");
 
-      // ✅ Emit authentication immediately
       this.socket?.emit("client:authenticate", { token });
+
       this.reconnectAttempts = 0;
     });
 
     this.socket.on("disconnect", (reason) => {
       console.log("❌ Socket disconnected:", reason);
       this.isAuthenticating = false;
-
-      toast.error("Disconnected from server", {
-        position: "bottom-right",
-        duration: 2000,
-      });
     });
 
     this.socket.on("connect_error", (error) => {
@@ -211,30 +209,22 @@ class SocketManager {
 
       if (this.reconnectAttempts >= this.maxReconnectAttempts) {
         console.error("❌ Max reconnection attempts reached");
-        toast.error("Failed to connect to server", {
-          position: "bottom-right",
-        });
         this.disconnect();
       }
     });
   }
 
   /**
-   * Setup customer-specific event listeners
+   * Setup customer-specific event listeners (as per WebSocket API docs)
    */
   private setupCustomerListeners() {
     if (!this.socket) return;
 
+    // Move request lifecycle events
     this.socket.on(
       "move:searching_for_driver",
       (data: MoveSearchingPayload) => {
         console.log("🔍 Searching for driver, attempt:", data.attempt);
-
-        toast.loading(data.message, {
-          id: data.moveId,
-          position: "bottom-right",
-        });
-
         this.dispatch?.(
           addMessage({
             id: data.moveId,
@@ -246,13 +236,6 @@ class SocketManager {
 
     this.socket.on("move:accepted", (data: DriverAssignedPayload) => {
       console.log("🚗 Driver assigned:", data.driver.name);
-
-      toast.success(`Driver ${data.driver.name} is on the way!`, {
-        id: data.moveId,
-        position: "bottom-right",
-        duration: 5000,
-      });
-
       this.dispatch?.(
         addMessage({
           id: data.moveId,
@@ -260,6 +243,7 @@ class SocketManager {
         })
       );
 
+      // Auto remove after 1 minute
       setTimeout(() => {
         this.dispatch?.(removeMessage(data.moveId));
       }, 60_000);
@@ -267,13 +251,6 @@ class SocketManager {
 
     this.socket.on("move:status_update", (data: MoveStatusUpdatedPayload) => {
       console.log("📊 Move status updated:", data.status);
-
-      toast.success(data.message, {
-        id: data.moveId,
-        position: "bottom-right",
-        duration: 5000,
-      });
-
       this.dispatch?.(
         addMessage({
           id: data.moveId,
@@ -290,13 +267,6 @@ class SocketManager {
       "move:no_drivers_found",
       (data: NoDriversAvailablePayload) => {
         console.log("❌ No drivers available");
-
-        toast.error(data.message, {
-          id: data.moveId,
-          position: "bottom-right",
-          duration: 5000,
-        });
-
         this.dispatch?.(
           addMessage({
             id: data.moveId,
@@ -312,13 +282,6 @@ class SocketManager {
 
     this.socket.on("move:cancelled", (data: MoveCancelledPayload) => {
       console.log("🚫 Move cancelled:", data.message);
-
-      toast.error(data.message, {
-        id: data.moveId,
-        position: "bottom-right",
-        duration: 5000,
-      });
-
       this.dispatch?.(
         addMessage({
           id: data.moveId,
@@ -331,40 +294,32 @@ class SocketManager {
       }, 60_000);
     });
 
+    // Driver location tracking (for customer app)
     this.socket.on(
       "customer:driver_location_updated",
       (data: DriverLocationUpdatedPayload) => {
         console.log("📍 Driver location updated:", data.location);
-        // You can dispatch this to a map slice
+        // You can dispatch this to a different slice for map updates
+        // Example: dispatch(updateDriverLocation(data));
       }
     );
 
-    // ✅ Log all events for debugging
     this.socket.onAny((event, ...args) => {
-      console.log("📨 [Customer Event]", event, args);
+      console.log("📨 [socket onAny] event:", event, "args:", args);
     });
   }
 
   /**
-   * Setup driver-specific event listeners
+   * Setup driver-specific event listeners (as per WebSocket API docs)
    */
   private setupDriverListeners() {
     if (!this.socket) return;
 
+    // New move request (most important for drivers)
     this.socket.on(
       "driver:new_move_request",
       (data: DriverNewMoveRequestPayload) => {
         console.log("🆕 New move request received:", data.moveId);
-
-        toast.success(
-          `New move: ${data.pickup.address} → ${data.delivery.address}`,
-          {
-            id: data.moveId,
-            position: "bottom-right",
-            duration: data.timeout / 1000,
-          }
-        );
-
         this.dispatch?.(
           addMessage({
             id: data.moveId,
@@ -372,19 +327,14 @@ class SocketManager {
           })
         );
 
+        // Show notification modal with Accept/Reject buttons
+        // Start countdown timer based on data.timeout
         console.log("⏰ Timeout for response:", data.timeout / 1000, "seconds");
       }
     );
 
     this.socket.on("move:cancelled", (data: MoveCancelledPayload) => {
       console.log("🚫 Move cancelled:", data.message);
-
-      toast.error(data.message, {
-        id: data.moveId,
-        position: "bottom-right",
-        duration: 5000,
-      });
-
       this.dispatch?.(
         addMessage({
           id: data.moveId,
@@ -399,13 +349,6 @@ class SocketManager {
 
     this.socket.on("move:status_updated", (data: MoveStatusUpdatedPayload) => {
       console.log("📊 Move status updated:", data.status);
-
-      toast.success(data.message, {
-        id: data.moveId,
-        position: "bottom-right",
-        duration: 5000,
-      });
-
       this.dispatch?.(
         addMessage({
           id: data.moveId,
@@ -418,9 +361,8 @@ class SocketManager {
       }, 60_000);
     });
 
-    // ✅ Log all events for debugging
     this.socket.onAny((event, ...args) => {
-      console.log("📨 [Driver Event]", event, args);
+      console.log("📨 [socket onAny] event:", event, "args:", args);
     });
   }
 
@@ -435,20 +377,28 @@ class SocketManager {
       this.authenticationTimeout = null;
     }
 
-    toast.error(`Authentication failed: ${error}`, {
-      position: "bottom-right",
-    });
+    this.dispatch?.(
+      addMessage({
+        id: uuidv4(),
+        text: `Authentication failed: ${error}`,
+      })
+    );
 
+    // Disconnect socket
     this.disconnect();
+
+    // Redirect to login might be needed here
+    // window.location.href = '/login';
   }
 
   /**
    * Send driver location update (for driver app only)
+   * As per WebSocket API documentation
    */
   sendDriverLocation(moveId: string, latitude: number, longitude: number) {
     if (!this.socket?.connected) {
       console.warn("⚠️ Cannot send location - socket not connected");
-      return false;
+      return;
     }
 
     this.socket.emit("driver:location_update", {
@@ -457,11 +407,10 @@ class SocketManager {
     });
 
     console.log("📍 Location update sent:", { latitude, longitude });
-    return true;
   }
 
   /**
-   * Update authentication token
+   * Update authentication token (when refreshed)
    */
   updateToken(token: string) {
     if (this.socket?.connected) {
@@ -476,11 +425,8 @@ class SocketManager {
   emit(event: string, data?: any) {
     if (this.socket?.connected) {
       this.socket.emit(event, data);
-      console.log("📤 Emitted event:", event, data);
-      return true;
     } else {
       console.warn("⚠️ Cannot emit - socket not connected");
-      return false;
     }
   }
 
@@ -516,7 +462,6 @@ class SocketManager {
     this.dispatch = null;
     this.isAuthenticating = false;
     this.reconnectAttempts = 0;
-    this.userRole = null;
 
     console.log("🔌 Socket disconnected and cleaned up");
   }
