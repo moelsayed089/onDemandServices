@@ -6,6 +6,7 @@ import { Button } from "../atoms/Button";
 import { UserMenu } from "../molecules/UserMenu";
 import { Menu } from "lucide-react";
 import { MobileSidebar } from "../molecules/MobileSidebar";
+import NotificationDropdown from "../molecules/NotificationDropdown";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -55,7 +56,8 @@ const Navbar = () => {
         <div>
           <ul className="flex gap-4 items-center">
             {!isLoggedIn && <AuthButtons className="hidden md:block" />}
-            {isLoggedIn && <UserMenu />}
+            {isLoggedIn && <NotificationDropdown />}
+            {isLoggedIn && <UserMenu role="customer" />}
             <Button
               variant={"ghost"}
               onClick={toggleOpen}

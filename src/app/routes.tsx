@@ -4,10 +4,11 @@ import HomePageDriver from "../features/driver/HomePageDriver";
 import RedirectByRole from "./RedirectByRole";
 import PaymentPage from "../features/moves/pages/PaymentPage";
 import { GetAllOrdersInDriver } from "../features/driver/components/GetAllOrderInDeriver";
-// import RedirectByRole from "./RedirectByRole";
-// import Start from "../pages/Start";
-// const StartPage = lazy(() => import("../features/moves/pages/StartPage"));
-// const StartLayout = lazy(() => import("./Layout/StartLayout"));
+import AdminProfile from "../features/dashboard/pages/AdminProfile";
+
+const DashboardPage = lazy(
+  () => import("../features/dashboard/pages/DashboardPage")
+);
 const Insurance = lazy(() => import("../features/moves/pages/Insurance"));
 const CreateOrder = lazy(() => import("../features/moves/pages/CreateOrder"));
 const GetAllOrderPage = lazy(
@@ -155,10 +156,11 @@ const router = createBrowserRouter([
         element: <AdminLayout />,
         children: [
           { path: "", element: <div>Admin</div> },
-          { path: "dashboard", element: <div>Admin Dashboard</div> },
+          { path: "dashboard", element: <DashboardPage /> },
           { path: "customers", element: <CustomerPage /> },
           { path: "orders", element: <GetAllOrderPageAdmin /> },
           { path: "drivers", element: <DriversPage /> },
+          { path: "profile", element: <AdminProfile /> },
         ],
       },
 

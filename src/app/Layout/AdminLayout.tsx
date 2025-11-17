@@ -13,6 +13,7 @@ import {
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import icon from "../../assets/icons/logoicon.webp";
+import { UserMenu } from "../../shared/components/molecules/UserMenu";
 
 const sidebarItems = [
   { icon: LayoutDashboard, label: "Dashboard", to: "/admin/dashboard" },
@@ -68,7 +69,10 @@ const AdminLayout = () => {
         })}
       </nav>
 
-      <div className="p-4 text-xs text-gray-500">SwiftMove Admin v1.0</div>
+      <div className="p-4 text-xs text-gray-500 flex items-center justify-between">
+        <UserMenu role="superAdmin" />
+        SwiftMove Admin v1.0
+      </div>
     </div>
   );
 
